@@ -6,7 +6,7 @@ from fate_matrix import get_matrix_pdf
 def main():
     client_info = get_clien_info()
     file_name = get_matrix_pdf(client_info)
-    print(f'Изучай {file_name} матрицу настоящим образом')
+    print(f'Изучай {client_info} матрицу настоящим образом')
 
 
 if __name__ == '__main__':
