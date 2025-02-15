@@ -1,0 +1,13 @@
+#!/Users/user/PythonProjects/Numerolog_free/.venv/bin/python3.13
+from clients_info import get_clien_info
+from fate_matrix import get_matrix_pdf
+
+
+def main():
+    client_info = get_clien_info()
+    file_name = get_matrix_pdf(client_info)
+    print(f'Изучай {file_name} матрицу настоящим образом')
+
+
+if __name__ == '__main__':
+    main()
