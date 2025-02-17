@@ -1,6 +1,6 @@
 from datetime import datetime, date
 from typing import NamedTuple
-from enter_service import enter_data
+from gui.gui_main import enter_data
 
 
 class Client(NamedTuple):
@@ -8,11 +8,10 @@ class Client(NamedTuple):
     birth_day: date
 
 
-def get_clien_info() -> Client:
-
+def get_client_info() -> Client:
     client = enter_data()
     return Client(*client)
 
 
 if __name__ == '__main__':
-    print(get_clien_info())
+    print(get_client_info())
