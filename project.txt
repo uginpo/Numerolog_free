@@ -1,0 +1,44 @@
+numerology_profile_generator/
+├── app/  # Основной код приложения
+│   ├── __init__.py
+│   ├── main.py  # Точка входа
+│   ├── gui/  # Графический интерфейс
+│   │   ├── __init__.py
+│   │   ├── gui_main.py  # Главный файл GUI
+│   │   └── widgets.py  # Вспомогательные виджеты
+│   ├── calculations/  # Модуль для расчетов чисел
+│   │   ├── __init__.py
+│   │   └── calculator.py  # Логика расчета нумерологических значений
+│   ├── templates/  # Работа с шаблонами Figma
+│   │   ├── __init__.py
+│   │   ├── template_loader.py  # Загрузка и обработка шаблонов
+│   │   └── coordinate_extractor.py  # Извлечение координат из шаблонов
+│   ├── text_storage/  # Хранилище текстовой информации
+│   │   ├── __init__.py
+│   │   ├── storage_manager.py  # Управление хранилищем
+│   │   └── data.json  # Файл с текстовыми данными (или БД)
+│   ├── image_processing/  # Обработка изображений
+│   │   ├── __init__.py
+│   │   ├── image_creator.py  # Создание PNG/JPEG страниц
+│   │   └── pdf_combiner.py  # Объединение страниц в PDF
+│   └── utils/  # Вспомогательные функции
+│       ├── __init__.py
+│       ├── random_selector.py  # Случайный выбор вариантов текста
+│       └── file_handler.py  # Работа с файлами
+├── assets/  # Ассеты проекта
+│   ├── figma_templates/  # Шаблоны Figma
+│   │   ├── template1.fig
+│   │   └── template2.fig
+│   └── output/  # Папка для сохранения результатов
+│       ├── images/  # Промежуточные PNG/JPEG файлы
+│       └── pdfs/  # Итоговые PDF файлы
+├── tests/  # Тесты
+│   ├── __init__.py
+│   ├── test_calculations.py
+│   ├── test_template_loader.py
+│   └── test_pdf_combiner.py
+├── config/  # Конфигурационные файлы
+│   ├── settings.py  # Настройки приложения
+│   └── logging.conf  # Настройки логирования
+├── requirements.txt  # Зависимости
+└── README.md  # Документация
