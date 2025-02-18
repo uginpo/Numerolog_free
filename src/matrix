@@ -1,11 +1,12 @@
 #!/Users/user/PythonProjects/Numerolog_free/.venv/bin/python3.13
-from clients_info import get_client_info
-from fate_matrix import get_matrix_pdf
+from src.clients_info import get_client_info
+from src.fate_matrix import get_matrix_pdf
+from src.coords import get_coords
 
 
 def main():
     client_info = get_client_info()
-    # coordinates = get_coords()
+    coordinates = get_coords()
     file_name = get_matrix_pdf(client_info)
     print(f'Изучай {client_info} матрицу настоящим образом')
 

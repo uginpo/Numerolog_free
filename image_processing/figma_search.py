@@ -8,7 +8,7 @@ from config.my_keys import FIGMA_TOKEN, FIGMA_FILE_KEY
 
 
 # Функция для рекурсивного поиска объектов
-def find_objects(node, target_objects, parent_frame=None):
+def find_objects(node, target_objects, parent_frame=None) -> List[FoundObject]:
     """
     Рекурсивно ищет объекты из списка target_objects.
 
