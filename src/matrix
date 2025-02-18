@@ -1,6 +1,6 @@
 #!/Users/user/PythonProjects/Numerolog_free/.venv/bin/python3.13
-from src.clients_info import get_client_info
-from src.fate_matrix import get_matrix_pdf
+from clients_info import get_client_info
+from fate_matrix import get_matrix_pdf
 
 
 def main():

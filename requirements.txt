@@ -14,8 +14,11 @@ jedi==0.19.2
 jupyter_client==8.6.3
 jupyter_core==5.7.2
 matplotlib-inline==0.1.7
+mypy==1.15.0
+mypy-extensions==1.0.0
 nest-asyncio==1.6.0
 numpy==2.2.3
+numpy_typing==1.1.1
 opencv-python==4.11.0.86
 packaging==24.2
 parso==0.8.4
@@ -36,5 +39,8 @@ six==1.17.0
 stack-data==0.6.3
 tornado==6.4.2
 traitlets==5.14.3
+types-requests==2.32.0.20241016
+typing==3.7.4.3
+typing_extensions==4.12.2
 urllib3==2.3.0
 wcwidth==0.2.13

@@ -13,6 +13,15 @@ class SearchObject(NamedTuple):
     name: str
 
 
+class FoundObject(NamedTuple):
+    frame: str  # Название фрейма
+    object_name: str  # Название объекта
+    x: float  # Координата x относительно фрейма
+    y: float  # Координата y относительно фрейма
+    width: float  # Ширина объекта
+    height: float  # Высота объекта
+
+
 target_objects = [
     SearchObject(name="Month"),         # Личность Personality
     SearchObject(name="Day"),           # Духовность Spirituality

@@ -2,5 +2,8 @@
 src/__pycache__/
 .mypy_cache/
 .env
-Additional
-JNotebooks
+Additional/
+JNotebooks/
+config/my_keys.py
+path.txt
+config/__pycache__/my_keys.cpython-313.pyc

@@ -1,40 +1,23 @@
-from src.gui.gui_main import enter_data, validate_date
 import unittest
-from unittest.mock import patch
 from datetime import datetime
-
-
-# Теперь можно импортировать src
+from src.gui.gui_main import process_input
 
 
 class TestGuiMain(unittest.TestCase):
-    def test_validate_date_valid(self):
-        """Тестирование валидации даты с корректными данными"""
-        date_str = "01.01.2000"
-        expected_date = datetime.strptime(date_str, '%d.%m.%Y').date()
-        self.assertEqual(validate_date(date_str), expected_date)
-
-    def test_validate_date_invalid(self):
-        """Тестирование валидации даты с некорректными данными"""
-        with self.assertRaises(ValueError):
-            validate_date("invalid_date")
-
-    @patch("tkinter.Tk")
-    @patch("tkinter.Entry")
-    @patch("tkinter.Label")
-    @patch("tkinter.Button")
-    def test_enter_data_valid_input(self, mock_button, mock_label, mock_entry, mock_tk):
-        """Тестирование enter_data с корректными данными"""
-        entry_date = mock_entry.return_value
-        entry_name = mock_entry.return_value
-        entry_date.get.return_value = "01.01.2000"
-        entry_name.get.return_value = "John Doe"
-
-        root = mock_tk.return_value
-        root.mainloop.side_effect = lambda: root.quit()
-
-        result = enter_data()
+    def test_process_input_valid(self):
+        """Тестирование process_input с корректными данными"""
+        result = process_input("John Doe", "01.01.2000")
         self.assertEqual(result, ("John Doe", datetime(2000, 1, 1).date()))
+
+    def test_process_input_invalid_date(self):
+        """Тестирование process_input с некорректной датой"""
+        with self.assertRaises(ValueError):
+            process_input("John Doe", "invalid_date")
+
+    def test_process_input_empty_name(self):
+        """Тестирование process_input с пустым именем"""
+        with self.assertRaises(ValueError):
+            process_input("", "01.01.2000")
 
 
 if __name__ == "__main__":

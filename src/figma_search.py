@@ -1,23 +1,10 @@
 import requests
 from typing import NamedTuple, List
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 import os
 
-# Определение именованного кортежа для хранения информации об объектах
-
-
-class FoundObject(NamedTuple):
-    frame: str  # Название фрейма
-    object_name: str  # Название объекта
-    x: float  # Координата x относительно фрейма
-    y: float  # Координата y относительно фрейма
-    width: float  # Ширина объекта
-    height: float  # Высота объекта
-
-
-# Определение именованного кортежа для целевых объектов
-class SearchObject(NamedTuple):
-    name: str  # Название объекта для поиска
+from constants.fields import SearchObject, FoundObject, target_objects
+from config.my_keys import FIGMA_TOKEN, FIGMA_FILE_KEY
 
 
 # Функция для рекурсивного поиска объектов
@@ -117,3 +104,24 @@ def load_figma_credentials():
             "Отсутствуют необходимые переменные окружения (FIGMA_TOKEN или FIGMA_FILE_KEY)!")
 
     return token, file_key
+
+
+def load_figma_api():
+    """
+    Загружает переменные окружения из .env файла и возвращает token и file_key.
+    """
+    token = FIGMA_TOKEN
+    file_key = FIGMA_FILE_KEY
+
+    if not token or not file_key:
+        raise ValueError(
+            "Отсутствуют необходимые переменные окружения (FIGMA_TOKEN или FIGMA_FILE_KEY)!")
+
+    return token, file_key
+
+
+if __name__ == '__main__':
+    token, file_key = load_figma_api()
+    print(token, file_key)
+    print(search_figma_objects(token=token,
+          file_key=file_key, target_objects=target_objects))
