@@ -18,13 +18,14 @@ def find_objects(node, target_objects, parent_frame=None) -> List[FoundObject]:
     :return: Список найденных объектов.
     """
     results = []
+    lookup_dict = {item.object_name: item for item in target_objects}
 
     # Проверяем, является ли текущий узел фреймом
     is_frame = node.get("type") == "FRAME"
     current_frame = node if is_frame else parent_frame
 
     # Если узел имеет имя и находится в списке целевых объектов
-    if "name" in node and any(obj.name == node["name"] for obj in target_objects):
+    if "name" in node and any(obj.object_name == node["name"] for obj in target_objects):
         if "absoluteBoundingBox" in node and current_frame:
             bbox = node["absoluteBoundingBox"]
             frame_bbox = current_frame["absoluteBoundingBox"]
@@ -39,7 +40,7 @@ def find_objects(node, target_objects, parent_frame=None) -> List[FoundObject]:
 
             # Создаем именованный кортеж для найденного объекта
             results.append(FoundObject(
-                frame=current_frame["name"],
+                frame=lookup_dict.get(node["name"], None).frame,
                 object_name=node["name"],
                 x=relative_x,
                 y=relative_y,
@@ -122,6 +123,5 @@ def load_figma_api():
 
 if __name__ == '__main__':
     token, file_key = load_figma_api()
-    print(token, file_key)
     print(search_figma_objects(token=token,
           file_key=file_key, target_objects=target_objects))

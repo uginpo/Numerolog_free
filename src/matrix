@@ -2,11 +2,15 @@
 from src.clients_info import get_client_info
 from src.fate_matrix import get_matrix_pdf
 from src.coords import get_coords
+from src.calculators.calculator import get_all_arcanes
+from constants.fields import target_objects
 
 
 def main():
     client_info = get_client_info()
-    coordinates = get_coords()
+    coordinates = get_coords(target_objects=target_objects)
+    arcanes = get_all_arcanes(client_info=client_info,
+                              target_objects=target_objects)
     file_name = get_matrix_pdf(client_info)
     print(f'Изучай {client_info} матрицу настоящим образом')
 

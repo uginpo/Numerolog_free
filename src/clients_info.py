@@ -1,11 +1,7 @@
 from datetime import datetime, date
 from typing import NamedTuple
-from gui.gui_main import enter_data
-
-
-class Client(NamedTuple):
-    name: str
-    birth_day: date
+from src.gui.gui_main import enter_data
+from constants.fields import Client
 
 
 def get_client_info() -> Client:

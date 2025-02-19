@@ -1,13 +1,21 @@
 from typing import NamedTuple, List
-from image_processing.figma_search import search_figma_objects, load_figma_api
+from figma_processing.figma_search import search_figma_objects, load_figma_api
 from constants.fields import SearchObject, FoundObject, target_objects
 from config.my_keys import FIGMA_TOKEN, FIGMA_FILE_KEY
 
-# Загрузка token и file_key из .env
-# token, file_key = load_figma_credentials()
 
+def get_coords(target_objects: List[SearchObject]) -> List[FoundObject]:
+    """Находит и возвращает координаты объектов в шаблонах Figma для
+    последующей вставки данных по этим координатам
 
-def get_coords() -> List[FoundObject]:
+    Returns:
+        List[FoundObject]:  frame: str  # Название фрейма
+                            object_name: str  # Название объекта
+                            x: float  # Координата x относительно фрейма
+                            y: float  # Координата y относительно фрейма
+                            width: float  # Ширина объекта
+                            height: float  # Высота объекта
+    """
 
     #   Поиск объектов
     return (search_figma_objects(token=FIGMA_TOKEN,
@@ -15,7 +23,7 @@ def get_coords() -> List[FoundObject]:
 
 
 if __name__ == '__main__':
-    found_objects = get_coords()
+    found_objects = get_coords(target_objects=target_objects)
 
     if found_objects:
         print("Найденные объекты:")
