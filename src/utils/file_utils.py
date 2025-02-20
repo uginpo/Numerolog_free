@@ -1,5 +1,9 @@
 from PIL import Image, ImageDraw, ImageFont
 import numpy as np
+from datetime import date
+from typing import List, NamedTuple
+from constants.classes import Client, Main_Objects
+from constants.fields import names_from_page1, names_from_page2, names_from_page3
 # утилиты для рассчета данных для первой страницы (звезда)
 
 
@@ -18,32 +22,58 @@ def num_to_single(num):
     return int(string)
 
 
-def get_main(data):
+def get_main_arcanes(client_info: Client) -> List[Main_Objects]:
     """Возвращает основные числа, рассчитанные по дате рождения
     Args:
-        data: (дата рождения) в формате date  
+        birth: (дата рождения) в формате date  
     Returns:
-        tuple: (day, month, year, sum_3, sum_4)  в приведенном к одному числу формате
+        List[Main_Objects]: (names_from_page1) Именованый кортеж
     """
-    a = [num_to_single(item) for item in (data.day, data.month, data.year)]
 
+    # Формирование данных для 1 страницы
+    names = names_from_page1
+    clien_name, birth = client_info
+
+    # Рассчет main арканов
+    arcanes = [num_to_single(item)
+               for item in (birth.day, birth.month, birth.year)]
     for i in range(2):
-        a.append(num_to_single(sum(a)))
+        arcanes.append(num_to_single(sum(arcanes)))
 
-    return tuple(a)
+    # Рассчет дополнительных арканов
+    arcanes.extend(get_additional(birth))
+
+    # Рассчет аркана миссии
+    mission_data = [num_to_single(item)
+                    for item in (birth.day, birth.month, birth.year)]
+    arcanes.append(num_to_single(sum(mission_data)))
+
+    # Рассчет арканов footer данные совпадают с main арканами
+    arcanes.extend(mission_data)
+
+    # Рассчет арканов для header
+    arcanes.append(
+        f'{client_info.name} {client_info.birth_day.strftime("%d.%m.%Y")}')
+
+    main_arcanes = [Main_Objects(object_name=name, arcane=str(value))
+                    for name, value in zip(names, arcanes)]
+
+    return main_arcanes
 
 
-def get_additional(data):
+def get_additional(birth: date) -> list:
     """Возвращает дополнительные числа, рассчитанными попарно из основных
     Args:
-        data (tuple): main_data
+        birth (date): ДР в формате date
     Returns:
-        tuple: (day_month, month_year, year_sum3, sum3_sum4, sum4_day)
+        list: [day_month, month_year, year_sum3, sum3_sum4, sum4_day]
     """
+    temp = [num_to_single(item)
+            for item in (birth.day, birth.month, birth.year)]
+    result = [num_to_single(temp[i]+temp[i+1]) for i in range(len(temp)-1)]
+    result.append(num_to_single(temp[0]+temp[-1]))
 
-    a = [num_to_single(data[i]+data[i+1]) for i in range(len(data)-1)]
-    a.append(num_to_single(data[0]+data[-1]))
-    return tuple(a)
+    return result
 
 
 def get_pos(data, dimension, img=None, my_font=None, coordinates=None):

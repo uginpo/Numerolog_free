@@ -123,5 +123,8 @@ def load_figma_api():
 
 if __name__ == '__main__':
     token, file_key = load_figma_api()
-    print(search_figma_objects(token=token,
-          file_key=file_key, target_objects=target_objects))
+    result = search_figma_objects(token=token,
+                                  file_key=file_key, target_objects=target_objects)
+
+    for item in result:
+        print(item)

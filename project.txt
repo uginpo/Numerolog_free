@@ -30,6 +30,7 @@ numerolog_free/
 │   │   ├── __init__.py
 │   │   ├── all_fonts.py 
 │   │   ├── fields.py  # Названия полей и переменных
+│   │   ├── classes.py  # Классы в проекте
 │   │   ├── config_keys.py  # Ключи конфигурации
 │   │   └── defaults.py  # Значения по умолчанию
 ├── assets/  # Ассеты проекта

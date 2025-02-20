@@ -1,9 +1,8 @@
 from typing import NamedTuple, List
-from constants.fields import ArcanesObject, SearchObject, Client
+from constants.classes import ArcanesObject, SearchObject, Client, Main_Objects
 from constants.fields import target_objects, pages
 from datetime import date
-
-from src.calculators.arcanes import get_page_arcanes
+from src.utils.file_utils import get_main_arcanes
 
 
 def get_all_arcanes(client_info: Client, target_objects: List[SearchObject]) -> List[ArcanesObject]:
@@ -17,18 +16,21 @@ def get_all_arcanes(client_info: Client, target_objects: List[SearchObject]) -> 
         List[ArcanesObject]: Список вычисляемы арканов с их значениями
     """
 
-    header_data = (f'{name} {birth_day.strftime("%d.%m.%Y")}',)
-    main_data = get_main(birth_day)
-    additional_data = get_additional(main_data)
-    mission_data = (num_to_single(sum(main_data)),)
-    footer_data = main_data
+    # Блок формирования арканов для 1 страницы "Звезда"
+    header_data = f'{client_info.name} {client_info.birth_day.strftime("%d.%m.%Y")}'
+    main_arcanes = get_main_arcanes(client_info)
+    # additional_data = get_additional(main_data)
+    # mission_data = (num_to_single(sum(main_data)),)
+    # footer_data = main_data
 
-    return a
-
-
-print(pages)
+    # Блок формирования арканов для 2 матрица Пифагора
+    # Блок формирования арканов для 3 страницы "Денежный треугольник"
+    return main_arcanes
 
 
 if __name__ == '__main__':
     client_info = Client(name='Julia', birth_day=date.today())
-    print(get_all_arcanes(client_info=client_info, target_objects=target_objects))
+    data = get_all_arcanes(client_info=client_info,
+                           target_objects=target_objects)
+    for item in data:
+        print(item)
