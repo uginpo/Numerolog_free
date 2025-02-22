@@ -8,8 +8,9 @@ page2 = 'A4 - 2'
 page3 = 'A4 - 3'
 pages = (page1, page2, page3)
 
-names_from_page1 = ['Day', 'Month', 'Year', 'Sum_3', 'Sum_4', 'Day_Month',
-                    'Month_Year', 'Year_Sum3', 'Sum3_Sum4', 'Day_Sum4', 'Sum_all',
+names_from_page1 = ['Day', 'Month', 'Year', 'Sum_3', 'Sum_4',
+                    'Day_Month', 'Month_Year', 'Year_Sum3', 'Sum3_Sum4', 'Day_Sum4',
+                    'Sum_all',
                     'Ellipse 1', 'Ellipse 2', 'Ellipse 3', 'Ellipse 4', 'Ellipse 5',
                     'Имя и дата 1'
                     ]

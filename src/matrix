@@ -9,8 +9,7 @@ from constants.fields import target_objects
 def main():
     client_info = get_client_info()
     coordinates = get_coords(target_objects=target_objects)
-    arcanes = get_all_arcanes(client_info=client_info,
-                              target_objects=target_objects)
+    arcanes = get_all_arcanes(client_info=client_info)
     file_name = get_matrix_pdf(client_info)
     print(f'Изучай {client_info} матрицу настоящим образом')
 

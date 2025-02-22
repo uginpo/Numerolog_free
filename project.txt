@@ -24,7 +24,9 @@ numerolog_free/
 │   │   └── pdf_combiner.py  # Объединение страниц в PDF
 │   └── utils/  # Вспомогательные функции
 │   │   ├── __init__.py
-│   │   ├── random_selector.py  # Случайный выбор вариантов текста
+│   │   ├── calc_utils.py  # Функции рассчета арканов
+│   │   ├── page_utils.py  # Функции рассчета арканов
+│   │   ├── image_utils.py  # Функции работы с шаблонами
 │   │   └── file_handler.py  # Работа с файлами
 │   ├── constants/  # Константы и настройки
 │   │   ├── __init__.py

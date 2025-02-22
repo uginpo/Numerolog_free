@@ -29,7 +29,7 @@ class FoundObject(NamedTuple):
 class ArcanesObject(NamedTuple):
     frame: str  # Название фрейма
     object_name: str  # Название объекта
-    arcane_value: str  # Значение аркана
+    arcane: str  # Значение аркана
 
 # Данные для 1 страницы "Звезда"
 
