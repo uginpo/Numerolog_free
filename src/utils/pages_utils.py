@@ -98,26 +98,30 @@ def get_page3_arcanes(page_num: str, client_info: Client) -> List[ArcanesObject]
     """
 
     # Формирование данных для 3 страницы
-    names = names_from_page2[:]
+    names = names_from_page3[:]
     client_name, birth = client_info
 
+    # Подготовка рассчета арканов
+    temp = [num_to_single(item)
+            for item in (birth.day, birth.month, birth.year)]
+    temp.append(num_to_single(sum(temp)))
+    # [Day, Month, Year, Sum3]
+    temp_additional = get_additional(temp[1:])
+    # [ Month_Year, Year_Sum3, Month_Sum3]
+
     # Рассчет арканов для денежного треугольника
-    pifagor_data = get_pif_dict(
-        birth=birth, pifagor_additional=pifagor_additional)
+    top = temp[2]
+    left_bottom, right_bottom = temp_additional[0:2]
+    left_middle, right_middle, middle_bottom = get_additional(
+        [left_bottom, top, right_bottom])
 
-    arcanes.extend(pifagor_data)
+    arcanes = [left_bottom, left_middle, top,
+               right_middle, right_bottom, middle_bottom]
 
-    main_arcanes = [ArcanesObject(frame=page_num, object_name=name, arcane=str(value))
-                    for name, value in zip(names, arcanes)]
+    money_arcanes = [ArcanesObject(frame=page_num, object_name=name, arcane=str(value))
+                     for name, value in zip(names, arcanes)]
 
-    return main_arcanes
-
-
-my_data = (additional_data[1], main_data[2], additional_data[2])
-temp = get_additional(my_data)
-
-money_main_data = (main_data[2],)
-money_data = (*temp[:2], additional_data[2], temp[2], additional_data[1])
+    return money_arcanes
 
 
 if __name__ == '__main__':

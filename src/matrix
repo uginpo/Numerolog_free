@@ -1,17 +1,63 @@
 #!/Users/user/PythonProjects/Numerolog_free/.venv/bin/python3.13
-from src.clients_info import get_client_info
-from src.fate_matrix import get_matrix_pdf
-from src.coords import get_coords
-from src.calculators.calculator import get_all_arcanes
+from loguru import logger
+from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+from config.settings import *
 from constants.fields import target_objects
 
+from src.clients_info import get_client_info
+from src.coordinates import get_coordinates
+from src.arcanes_manager import make_arcanese_for_templates
+from src.fate_matrix import get_matrix_pdf
 
+
+# Функция для загрузки переменных окружения
+def load_figma_credentials():
+    """
+    Загружает переменные окружения из .env файла и возвращает token и file_key.
+    """
+    load_dotenv()  # Загружаем переменные из .env
+    token = os.getenv("FIGMA_TOKEN")
+    file_key = os.getenv("FIGMA_FILE_KEY")
+
+    if not token or not file_key:
+        raise ValueError(
+            "Отсутствуют необходимые переменные окружения (FIGMA_TOKEN или FIGMA_FILE_KEY)!")
+
+    return token, file_key
+
+
+@logger.catch
 def main():
+    # Настройка логгера
+    logger.add(
+        LOG_DEBUG_PATH,
+        format="{time:DD-MM-YYYY at HH:mm:ss} | {level} | {name} - {message}",
+        level="DEBUG",
+        rotation="500 KB",
+        compression="zip"
+    )
+    token, file_key = load_figma_credentials()
+
+    logger.info('Программа стартовала')
+
     client_info = get_client_info()
-    coordinates = get_coords(target_objects=target_objects)
-    arcanes = get_all_arcanes(client_info=client_info)
+
+    coordinates = get_coordinates(
+        target_objects=target_objects, token=token, file_key=file_key)
+
+    logger.debug(f'Координаты {coordinates}')
+
+    arcanes = make_arcanese_for_templates(
+        client_info=client_info,
+        coordinates=coordinates
+    )
+
     file_name = get_matrix_pdf(client_info)
-    print(f'Изучай {client_info} матрицу настоящим образом')
+
+    logger.info('Программа завершила работу')
 
 
 if __name__ == '__main__':

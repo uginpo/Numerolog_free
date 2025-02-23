@@ -2,13 +2,15 @@ numerolog_free/
 ├── src/  # Основной код приложения
 │   ├── __init__.py
 │   ├── matrix  # Точка входа
+│   ├── clients_info.py  # Ввод имени и ДР клиента
+│   ├── coordinates.py  # Определение координат арканов на шаблонах
 │   ├── gui/  # Графический интерфейс
 │   │   ├── __init__.py
 │   │   ├── gui_main.py  # Главный файл GUI
 │   ├── calculations/  # Модуль для расчетов чисел
 │   │   ├── __init__.py
-│   │   ├── arcanes.py # рассчет нумерологических значений на странице
-│   │   └── calculator.py  # Логика расчета нумерологических значений
+│   │   ├── calculator.py  # Логика расчета нумерологических значений
+│   │   └── arcanes_manager.py  # Создание объединенных данных для вставки в шаблоны
 │   ├── text_storage/  # Хранилище текстовой информации
 │   │   ├── __init__.py
 │   │   ├── storage_manager.py  # Управление хранилищем
@@ -17,7 +19,6 @@ numerolog_free/
 │   │   ├── __init__.py
 │   │   ├── figma_search.py  # Поиск координат во фреймах Figma
 │   │   └── template_creator.py  # Создание PNG/JPEG страниц
-│   └── utils/  # Вспомогательные функции
 │   ├── page_processing/  # Обработка изображений
 │   │   ├── __init__.py
 │   │   ├── page_creator.py  # Создание PNG/JPEG страниц
@@ -49,8 +50,9 @@ numerolog_free/
 │   ├── test_calculations.py
 │   ├── test_template_loader.py
 │   └── test_pdf_combiner.py
+├── logs/  # Логи
+│   └── debug.log # Файл логов
 ├── config/  # Конфигурационные файлы
-│   ├── settings.py  # Настройки приложения
-│   └── logging.conf  # Настройки логирования
+│   └── settings.py  # Настройки приложения
 ├── requirements.txt  # Зависимости
 └── README.md  # Документация

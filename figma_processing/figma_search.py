@@ -1,10 +1,9 @@
 import requests
 from typing import NamedTuple, List
-# from dotenv import load_dotenv
 import os
 
-from constants.fields import SearchObject, FoundObject, target_objects
-from config.my_keys import FIGMA_TOKEN, FIGMA_FILE_KEY
+from constants.fields import target_objects
+from constants.classes import SearchObject, FoundObject
 
 
 # Функция для рекурсивного поиска объектов
@@ -89,42 +88,3 @@ def search_figma_objects(token: str, file_key: str, target_objects: List[SearchO
     else:
         raise Exception(
             f"Ошибка при запросе к API Figma: {response.status_code}, {response.text}")
-
-
-# Функция для загрузки переменных окружения
-def load_figma_credentials():
-    """
-    Загружает переменные окружения из .env файла и возвращает token и file_key.
-    """
-    load_dotenv()  # Загружаем переменные из .env
-    token = os.getenv("FIGMA_TOKEN")
-    file_key = os.getenv("FIGMA_FILE_KEY")
-
-    if not token or not file_key:
-        raise ValueError(
-            "Отсутствуют необходимые переменные окружения (FIGMA_TOKEN или FIGMA_FILE_KEY)!")
-
-    return token, file_key
-
-
-def load_figma_api():
-    """
-    Загружает переменные окружения из .env файла и возвращает token и file_key.
-    """
-    token = FIGMA_TOKEN
-    file_key = FIGMA_FILE_KEY
-
-    if not token or not file_key:
-        raise ValueError(
-            "Отсутствуют необходимые переменные окружения (FIGMA_TOKEN или FIGMA_FILE_KEY)!")
-
-    return token, file_key
-
-
-if __name__ == '__main__':
-    token, file_key = load_figma_api()
-    result = search_figma_objects(token=token,
-                                  file_key=file_key, target_objects=target_objects)
-
-    for item in result:
-        print(item)
