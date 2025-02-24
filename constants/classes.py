@@ -1,5 +1,6 @@
-from typing import NamedTuple, List
+from typing import NamedTuple, List, Optional
 from datetime import date
+from dataclasses import dataclass
 
 # Данные клиента при вводе (имя и ДР)
 
@@ -31,9 +32,12 @@ class ArcanesObject(NamedTuple):
     object_name: str  # Название объекта
     arcane: str  # Значение аркана
 
-# Данные для 1 страницы "Звезда"
 
-
-class Main_Objects(NamedTuple):
-    object_name: str
-    arcane: str
+# Шрифты
+@dataclass
+class Font:
+    family: str       # Семейство шрифта
+    size: int         # Размер шрифта
+    color: str        # Цвет шрифта (в формате HEX)
+    stroke_fill: Optional[str] = None  # Цвет обводки (опционально)
+    stroke_width: Optional[int] = None  # Ширина обводки (опционально)

@@ -23,6 +23,8 @@ names_from_page3 = ['top', 'left_bottom', 'left_middle', 'right_middle',
                     'right_bottom', 'middle_bottom'
                     ]
 
+all_names = names_from_page1 + names_from_page2 + names_from_page3
+
 target_objects = [
     # Личность Personality
     SearchObject(frame=page1, object_name='Month'),

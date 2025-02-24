@@ -2,7 +2,7 @@ from typing import NamedTuple, List
 from datetime import date
 from loguru import logger
 
-from constants.classes import ArcanesObject, SearchObject, Client, Main_Objects
+from constants.classes import ArcanesObject, SearchObject, Client
 from constants.fields import target_objects, pages
 from src.utils.pages_utils import get_page1_arcanes, get_page2_arcanes, get_page3_arcanes
 
@@ -38,7 +38,7 @@ def get_all_arcanes(client_info: Client) -> List[ArcanesObject]:
         f'Арканы Денежного треугольника {money_arcanes}')
 
     all_arcanes.extend(money_arcanes)
-    logger.debug(all_arcanes)
+    logger.debug(f'Все арканы {all_arcanes}')
 
     return all_arcanes
 

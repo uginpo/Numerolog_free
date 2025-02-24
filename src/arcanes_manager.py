@@ -1,16 +1,17 @@
-from typing import NamedTuple, List
+from typing import NamedTuple, List, Dict
 from datetime import date
 from loguru import logger
 
 from constants.classes import Client, ArcanesObject, FoundObject
-from constants.fields import pages
+from constants.fields import all_names
 
 from src.calculations.calculator import get_all_arcanes
-from figma_processing.template_creator import is_templates_exist
+from src.calculations.fonts_manager import create_fonts_dict
 
 
-def make_arcanese_for_templates(client_info: Client, coordinates: List[FoundObject]) -> List[ArcanesObject]:
+def make_arcanese_for_templates(client_info: Client, coordinates: List[FoundObject]) -> tuple[List[ArcanesObject], Dict]:
 
     all_arcanes = get_all_arcanes(client_info=client_info)
+    fonts_mapping = create_fonts_dict(all_names=all_names)
 
-    return all_arcanes
+    return all_arcanes, fonts_mapping

@@ -18,7 +18,7 @@ numerolog_free/
 │   ├── figma_processing/  # Обработка изображений
 │   │   ├── __init__.py
 │   │   ├── figma_search.py  # Поиск координат во фреймах Figma
-│   │   └── template_creator.py  # Создание PNG/JPEG страниц
+│   │   └── templates_creator.py  # Создание PNG/JPEG страниц
 │   ├── page_processing/  # Обработка изображений
 │   │   ├── __init__.py
 │   │   ├── page_creator.py  # Создание PNG/JPEG страниц
@@ -31,10 +31,9 @@ numerolog_free/
 │   │   └── file_handler.py  # Работа с файлами
 │   ├── constants/  # Константы и настройки
 │   │   ├── __init__.py
-│   │   ├── all_fonts.py 
+│   │   ├── fonts.py 
 │   │   ├── fields.py  # Названия полей и переменных
 │   │   ├── classes.py  # Классы в проекте
-│   │   ├── config_keys.py  # Ключи конфигурации
 │   │   └── defaults.py  # Значения по умолчанию
 ├── assets/  # Ассеты проекта
 │   ├── page_templates/  # Шаблоны Figma
@@ -51,7 +50,9 @@ numerolog_free/
 │   ├── test_template_loader.py
 │   └── test_pdf_combiner.py
 ├── logs/  # Логи
-│   └── debug.log # Файл логов
+│   ├── error.log # Файл логов ошибок
+│   ├── info.log # Файл логов информационных сообщений
+│   └── debug.log # Файл логов отладки
 ├── config/  # Конфигурационные файлы
 │   └── settings.py  # Настройки приложения
 ├── requirements.txt  # Зависимости

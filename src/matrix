@@ -3,20 +3,20 @@ from loguru import logger
 from pathlib import Path
 import os
 from dotenv import load_dotenv
-
-from config.settings import *
+from config.settings import INFO_FILE, DEBUG_FILE, ERROR_FILE
 from constants.fields import target_objects
-
 from src.clients_info import get_client_info
 from src.coordinates import get_coordinates
 from src.arcanes_manager import make_arcanese_for_templates
 from src.fate_matrix import get_matrix_pdf
 
-
 # Функция для загрузки переменных окружения
+
+
 def load_figma_credentials():
     """
     Загружает переменные окружения из .env файла и возвращает token и file_key.
+    Если переменные отсутствуют, вызывает исключение ValueError.
     """
     load_dotenv()  # Загружаем переменные из .env
     token = os.getenv("FIGMA_TOKEN")
@@ -24,41 +24,111 @@ def load_figma_credentials():
 
     if not token or not file_key:
         raise ValueError(
-            "Отсутствуют необходимые переменные окружения (FIGMA_TOKEN или FIGMA_FILE_KEY)!")
+            "Отсутствуют необходимые переменные окружения (FIGMA_TOKEN или FIGMA_FILE_KEY)!"
+        )
 
     return token, file_key
 
 
-@logger.catch
-def main():
-    # Настройка логгера
+# Функция для настройки логгера
+def configure_logger():
+    """
+    Настройка логгера с использованием трех уровней: INFO, DEBUG, ERROR.
+    Логи сохраняются в файлы с автоматическим разбиением по размеру (10 MB).
+    """
+    logger.remove()  # Удаляем все предыдущие конфигурации логгера
     logger.add(
-        LOG_DEBUG_PATH,
-        format="{time:DD-MM-YYYY at HH:mm:ss} | {level} | {name} - {message}",
-        level="DEBUG",
-        rotation="500 KB",
-        compression="zip"
+        INFO_FILE,
+        format="{time:DD-MM-YYYY at HH:mm:ss} | {level} | {message}",
+        level="INFO",
+        filter=lambda record: record["level"].name == "INFO",
+        rotation="10 MB",
     )
-    token, file_key = load_figma_credentials()
+    logger.add(
+        DEBUG_FILE,
+        format="{time:DD-MM-YYYY at HH:mm:ss} | {level} | {message}",
+        level="DEBUG",
+        filter=lambda record: record["level"].name == "DEBUG",
+        rotation="10 MB",
+    )
+    logger.add(
+        ERROR_FILE,
+        format="{time:DD-MM-YYYY at HH:mm:ss} | {level} | {message}",
+        level="ERROR",
+        filter=lambda record: record["level"].name == "ERROR",
+        rotation="10 MB",
+    )
 
-    logger.info('Программа стартовала')
 
+# Функция для получения данных клиента и координат
+def fetch_data(token, file_key):
+    """
+    Получает информацию о клиенте и координаты объектов из Figma.
+    Возвращает словарь с данными клиента и координатами.
+    """
     client_info = get_client_info()
+    if not client_info:
+        logger.error("Не удалось получить информацию о клиенте.")
+        raise RuntimeError(
+            "Критическая ошибка: отсутствует информация о клиенте.")
 
     coordinates = get_coordinates(
         target_objects=target_objects, token=token, file_key=file_key)
+    if not coordinates:
+        logger.error("Не удалось получить координаты объектов из Figma.")
+        raise RuntimeError(
+            "Критическая ошибка: отсутствуют координаты объектов.")
 
-    logger.debug(f'Координаты {coordinates}')
-
-    arcanes = make_arcanese_for_templates(
-        client_info=client_info,
-        coordinates=coordinates
-    )
-
-    file_name = get_matrix_pdf(client_info)
-
-    logger.info('Программа завершила работу')
+    logger.debug(f"Получены координаты: {coordinates}")
+    return client_info, coordinates
 
 
-if __name__ == '__main__':
+# Основная функция программы
+@logger.catch
+def main():
+    """
+    Главная функция программы. Выполняет следующие шаги:
+    1. Настройка логгера.
+    2. Загрузка переменных окружения.
+    3. Получение данных клиента и координат.
+    4. Создание аркан для шаблонов.
+    5. Генерация PDF матрицы судьбы.
+    """
+    try:
+        # Настройка логгера
+        configure_logger()
+
+        # Загрузка переменных окружения
+        logger.info("Загрузка переменных окружения...")
+        token, file_key = load_figma_credentials()
+
+        # Получение данных клиента и координат
+        logger.info("Получение данных клиента и координат...")
+        client_info, coordinates = fetch_data(token, file_key)
+
+        # Создание арканов для шаблонов
+        logger.info("Создание арканов для шаблонов...")
+        all_arcanes, fonts_mapping = make_arcanese_for_templates(
+            client_info=client_info, coordinates=coordinates)
+        if not arcanes:
+            logger.error("Не удалось создать аркан для шаблонов.")
+            raise RuntimeError(
+                "Критическая ошибка: отсутствует аркан для шаблонов.")
+
+        # Генерация PDF матрицы судьбы
+        logger.info("Генерация PDF матрицы судьбы...")
+        file_name = get_matrix_pdf(client_info)
+        if not file_name:
+            logger.error("Не удалось сгенерировать PDF матрицу судьбы.")
+            raise RuntimeError("Критическая ошибка: не удалось создать PDF.")
+
+        # Завершение работы программы
+        logger.info("Программа успешно завершила работу.")
+    except Exception as e:
+        logger.error(f"Произошла ошибка: {e}")
+        raise
+
+
+# Точка входа в программу
+if __name__ == "__main__":
     main()
