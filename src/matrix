@@ -2,13 +2,17 @@
 from loguru import logger
 from pathlib import Path
 import os
+import asyncio
+
 from dotenv import load_dotenv
 from config.settings import INFO_FILE, DEBUG_FILE, ERROR_FILE
-from constants.fields import target_objects
+from config.settings import TEMPLATES_PATH
+from constants.fields import target_objects, pages
 from src.clients_info import get_client_info
 from src.coordinates import get_coordinates
+from figma_processing.templates_creator_async import export_figma_frames_to_png_async
 from src.arcanes_manager import make_arcanese_for_templates
-from src.fate_matrix import get_matrix_pdf
+from src.pages_from_arcanes import get_pages_img
 
 # Функция для загрузки переменных окружения
 
@@ -110,17 +114,34 @@ def main():
         logger.info("Создание арканов для шаблонов...")
         all_arcanes, fonts_mapping = make_arcanese_for_templates(
             client_info=client_info, coordinates=coordinates)
-        if not arcanes:
+        if not all_arcanes or not fonts_mapping:
             logger.error("Не удалось создать аркан для шаблонов.")
             raise RuntimeError(
                 "Критическая ошибка: отсутствует аркан для шаблонов.")
 
-        # Генерация PDF матрицы судьбы
-        logger.info("Генерация PDF матрицы судьбы...")
-        file_name = get_matrix_pdf(client_info)
-        if not file_name:
-            logger.error("Не удалось сгенерировать PDF матрицу судьбы.")
-            raise RuntimeError("Критическая ошибка: не удалось создать PDF.")
+        # Создание шаблонов страниц из файла Figma
+        logger.info("Создание шаблонов страниц...")
+        result = asyncio.run(export_figma_frames_to_png_async(
+            token=token,
+            file_key=file_key,
+            pages=pages, output_dir=TEMPLATES_PATH
+        )
+        )
+        if not result:
+            logger.error("Не удалось создать шаблоны страниц.")
+            raise RuntimeError(
+                "Критическая ошибка: отсутствуют шаблоны страниц.")
+
+        # Генерация заполненных страниц
+        logger.info("Генерация заполнения страниц...")
+        result = get_pages_img(image_path=TEMPLATES_PATH,
+                               output_path=IMG_PATH,
+                               objects_data: List[FoundObject],
+                               arcana_data: List[ArcanesObject], fonts_mapping: Dict[str, Font])
+        if not result:
+            logger.error("Не удалось сгенерировать заполненные страницы.")
+            raise RuntimeError(
+                "Критическая ошибка: не удалось создать страницы.")
 
         # Завершение работы программы
         logger.info("Программа успешно завершила работу.")

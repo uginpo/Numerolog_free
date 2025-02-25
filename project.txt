@@ -4,13 +4,14 @@ numerolog_free/
 │   ├── matrix  # Точка входа
 │   ├── clients_info.py  # Ввод имени и ДР клиента
 │   ├── coordinates.py  # Определение координат арканов на шаблонах
+│   ├── arcanes_manager.py  # Создание единого списка данных со шрифтами 
 │   ├── gui/  # Графический интерфейс
 │   │   ├── __init__.py
 │   │   ├── gui_main.py  # Главный файл GUI
 │   ├── calculations/  # Модуль для расчетов чисел
 │   │   ├── __init__.py
 │   │   ├── calculator.py  # Логика расчета нумерологических значений
-│   │   └── arcanes_manager.py  # Создание объединенных данных для вставки в шаблоны
+│   │   └── fonts_manager.py  # Создание объединенных данных для вставки в шаблоны
 │   ├── text_storage/  # Хранилище текстовой информации
 │   │   ├── __init__.py
 │   │   ├── storage_manager.py  # Управление хранилищем
@@ -18,6 +19,7 @@ numerolog_free/
 │   ├── figma_processing/  # Обработка изображений
 │   │   ├── __init__.py
 │   │   ├── figma_search.py  # Поиск координат во фреймах Figma
+│   │   ├── templates_creator_async.py  # Создание PNG/JPEG страниц
 │   │   └── templates_creator.py  # Создание PNG/JPEG страниц
 │   ├── page_processing/  # Обработка изображений
 │   │   ├── __init__.py
@@ -25,16 +27,13 @@ numerolog_free/
 │   │   └── pdf_combiner.py  # Объединение страниц в PDF
 │   └── utils/  # Вспомогательные функции
 │   │   ├── __init__.py
-│   │   ├── calc_utils.py  # Функции рассчета арканов
-│   │   ├── page_utils.py  # Функции рассчета арканов
-│   │   ├── image_utils.py  # Функции работы с шаблонами
-│   │   └── file_handler.py  # Работа с файлами
+│   │   ├── calc_utils.py  # Функции для рассчета значение арканов
+│   │   └── page_utils.py  # Функции рассчета арканов для страниц
 │   ├── constants/  # Константы и настройки
 │   │   ├── __init__.py
 │   │   ├── fonts.py 
 │   │   ├── fields.py  # Названия полей и переменных
-│   │   ├── classes.py  # Классы в проекте
-│   │   └── defaults.py  # Значения по умолчанию
+│   │   └── classes.py  # Классы в проекте
 ├── assets/  # Ассеты проекта
 │   ├── page_templates/  # Шаблоны Figma
 │   │   ├── A4 - 1.jpeg

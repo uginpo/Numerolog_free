@@ -9,3 +9,6 @@ COORDINATES_FILE = Path('constants/coordinates.pkl')
 
 # Блок с путями к шаблонам страниц
 TEMPLATES_PATH = Path('assets/page_templates')
+
+# Блок с путями к готовым img страницам
+IMG_PATH = Path('assets/output/images')

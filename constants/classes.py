@@ -1,23 +1,26 @@
-from typing import NamedTuple, List, Optional
+from typing import List, Optional
 from datetime import date
 from dataclasses import dataclass
 
 # Данные клиента при вводе (имя и ДР)
 
 
-class Client(NamedTuple):
+@dataclass
+class Client:
     name: str
     birth_day: date
 
 
 # Название объекта для поиска координат в figma
-class SearchObject(NamedTuple):
+@dataclass
+class SearchObject:
     frame: str
     object_name: str
 
 
 # Найденные объекты с координатами в шаблонах страниц из figma
-class FoundObject(NamedTuple):
+@dataclass
+class FoundObject:
     frame: str  # Название фрейма
     object_name: str  # Название объекта
     x: float  # Координата x относительно фрейма
@@ -27,7 +30,8 @@ class FoundObject(NamedTuple):
 
 
 # Посчитанные значения арканов
-class ArcanesObject(NamedTuple):
+@dataclass
+class ArcanesObject:
     frame: str  # Название фрейма
     object_name: str  # Название объекта
     arcane: str  # Значение аркана

@@ -19,7 +19,7 @@ def get_page1_arcanes(page_num: str, client_info: Client) -> List[ArcanesObject]
 
     # Формирование данных для 1 страницы
     names = names_from_page1[:]
-    client_name, birth = client_info
+    client_name, birth = client_info.name, client_info.birth_day
 
     # Рассчет main арканов
     arcanes = [num_to_single(item)
@@ -63,7 +63,7 @@ def get_page2_arcanes(page_num: str, client_info: Client) -> List[ArcanesObject]
 
     # Формирование данных для 2 страницы
     names = names_from_page2[:]
-    client_name, birth = client_info
+    client_name, birth = client_info.name, client_info.birth_day
 
     # Рассчет арканов для header
     temp = [f'{client_name} {birth.strftime("%d.%m.%Y")}']
@@ -99,7 +99,7 @@ def get_page3_arcanes(page_num: str, client_info: Client) -> List[ArcanesObject]
 
     # Формирование данных для 3 страницы
     names = names_from_page3[:]
-    client_name, birth = client_info
+    client_name, birth = client_info.name, client_info.birth_day
 
     # Подготовка рассчета арканов
     temp = [num_to_single(item)
@@ -122,9 +122,3 @@ def get_page3_arcanes(page_num: str, client_info: Client) -> List[ArcanesObject]
                      for name, value in zip(names, arcanes)]
 
     return money_arcanes
-
-
-if __name__ == '__main__':
-    client_info = Client(name='Julia', birth_day=date.today())
-    a = get_page2_arcanes('A4 - 2', client_info)
-    print(a)

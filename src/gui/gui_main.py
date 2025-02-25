@@ -1,9 +1,9 @@
 import tkinter as tk
 from tkinter import messagebox
-from datetime import datetime
+from datetime import datetime, date
 
 
-def validate_date(date_str):
+def validate_date(date_str: str) -> date:
     """Валидация даты."""
     try:
         return datetime.strptime(date_str, '%d.%m.%Y').date()
@@ -106,11 +106,3 @@ def enter_data() -> tuple:
         return result
     else:
         raise ValueError('Не введены данные клиента')
-
-
-if __name__ == '__main__':
-    try:
-        data = enter_data()
-        print(data)  # Выводим полученные данные
-    except ValueError as e:
-        print(f"Ошибка: {e}")

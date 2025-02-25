@@ -1,6 +1,5 @@
 from datetime import datetime, date
 from loguru import logger
-from typing import NamedTuple
 from src.gui.gui_main import enter_data
 from constants.classes import Client
 

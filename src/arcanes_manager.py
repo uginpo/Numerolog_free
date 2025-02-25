@@ -1,4 +1,4 @@
-from typing import NamedTuple, List, Dict
+from typing import List, Dict
 from datetime import date
 from loguru import logger
 

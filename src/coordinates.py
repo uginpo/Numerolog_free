@@ -1,4 +1,4 @@
-from typing import NamedTuple, List
+from typing import List
 import pickle
 from loguru import logger
 from figma_processing.figma_search import search_figma_objects
@@ -23,7 +23,7 @@ def get_coordinates(target_objects: List[SearchObject], token: str, file_key: st
     if COORDINATES_FILE.exists():
         with open(COORDINATES_FILE, "rb") as file:
             coordinates = pickle.load(file)
-        logger.debug('Файл с координатами считан')
+        logger.info('Файл с координатами считан')
     else:
         #   Поиск объектов
         coordinates = search_figma_objects(token=token,
@@ -31,6 +31,8 @@ def get_coordinates(target_objects: List[SearchObject], token: str, file_key: st
                                            file_key=file_key, target_objects=target_objects)
         with open(COORDINATES_FILE, "wb") as file:
             pickle.dump(coordinates, file)
-        logger.debug('Файл с координатами успешно создан')
+        logger.info('Файл с координатами успешно создан')
+
+    logger.debug(f'Файл с координатами {coordinates}')
 
     return coordinates
