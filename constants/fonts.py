@@ -10,9 +10,7 @@ header_font = Font(
 additional_font = Font(
     family='Gilroy-Medium.ttf',
     size=100,
-    color='"#E6DFD2"',
-    stroke_fill='black',
-    stroke_width=1
+    color='#271915',
 )
 
 footer_font = Font(
@@ -32,6 +30,7 @@ mission_font = Font(
     size=160,
     color='#FF693A'
 )
+
 money_main_font = Font(
     family='Gilroy-Semibold.ttf',
     size=160,

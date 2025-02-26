@@ -5,6 +5,7 @@ numerolog_free/
 │   ├── clients_info.py  # Ввод имени и ДР клиента
 │   ├── coordinates.py  # Определение координат арканов на шаблонах
 │   ├── arcanes_manager.py  # Создание единого списка данных со шрифтами 
+│   ├── pages_from_arcanes.py  # Создание заполненных страниц для pdf файла 
 │   ├── gui/  # Графический интерфейс
 │   │   ├── __init__.py
 │   │   ├── gui_main.py  # Главный файл GUI
@@ -23,7 +24,7 @@ numerolog_free/
 │   │   └── templates_creator.py  # Создание PNG/JPEG страниц
 │   ├── page_processing/  # Обработка изображений
 │   │   ├── __init__.py
-│   │   ├── page_creator.py  # Создание PNG/JPEG страниц
+│   │   ├── acranes2image.py  # Создание PNG/JPEG страниц
 │   │   └── pdf_combiner.py  # Объединение страниц в PDF
 │   └── utils/  # Вспомогательные функции
 │   │   ├── __init__.py
@@ -55,4 +56,5 @@ numerolog_free/
 ├── config/  # Конфигурационные файлы
 │   └── settings.py  # Настройки приложения
 ├── requirements.txt  # Зависимости
+├── technical_requirements.md  # Техническое задание
 └── README.md  # Документация

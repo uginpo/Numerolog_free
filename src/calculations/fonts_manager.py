@@ -16,8 +16,11 @@ def create_fonts_dict(all_names: list) -> Dict:
             case "Day" | "Month" | "Year" | "Sum_3" | "Sum_4":
                 fonts_mapping[name] = main_font
 
-            case str() as n if n.startswith("Ellipse"):  # Проверка, начинается ли имя с "Ellipse"
+            case "Day_Month" | "Month_Year" | "Year_Sum3" | "Sum3_Sum4" | "Day_Sum4":
                 fonts_mapping[name] = additional_font
+
+            case str() as n if n.startswith("Ellipse"):  # Проверка, начинается ли имя с "Ellipse"
+                fonts_mapping[name] = footer_font
 
             case "Sum_all":
                 fonts_mapping[name] = mission_font

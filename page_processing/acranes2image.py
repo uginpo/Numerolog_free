@@ -1,27 +1,50 @@
-from PIL import Image, ImageDraw, ImageFont
+from constants.classes import FoundObject, ArcanesObject, Font
+from loguru import logger
 from typing import List, Dict
+from PIL import Image, ImageDraw, ImageFont
+from collections import defaultdict
+
+# Рефакторинг через defaultdict
 
 
-# Функция для добавления текста на изображение
-def add_text_to_image(image_path: str, output_path: str, objects_data: List[FoundObject], arcana_data: List[ArcanesObject], fonts_mapping: Dict[str, Font]):
+def group_objects_by_frame(objects_data: List[FoundObject]) -> Dict[str, List[FoundObject]]:
+    """
+    Группирует объекты по их фреймам.
+
+    :param objects_data: Список объектов.
+    :return: Словарь, где ключ — название фрейма, значение — список объектов этого фрейма.
+    """
+    frames = defaultdict(
+        list)  # Создаем defaultdict со списком как значением по умолчанию
+
+    for obj in objects_data:
+        # Автоматически создается список для нового ключа
+        frames[obj.frame].append(obj)
+
+    return frames
+
+
+# Основная функция
+def add_text_to_image(image_path: str,
+                      output_path: str,
+                      objects_data: List[FoundObject],
+                      arcana_data: List[ArcanesObject],
+                      fonts_mapping: Dict[str, Font]) -> bool:
     """
     Добавляет текстовые данные на изображения.
 
     :param image_path: Путь к исходному изображению.
-    :param output_path: Путь для сохранения измененного изображения.
+    :param output_path: Путь для сохранения страниц.
     :param objects_data: Список объектов с координатами и размерами.
     :param arcana_data: Список данных для вставки.
     :param fonts_mapping: Словарь с параметрами шрифтов.
     """
-    # Группируем данные по фреймам
-    frames = {}
-    for obj in objects_data:
-        if obj.frame not in frames:
-            frames[obj.frame] = []
-        frames[obj.frame].append(obj)
+
+    # Группируем данные по фреймам с помощью функции group_objects_by_frame
+    frames = group_objects_by_frame(objects_data)
 
     # Создаем словарь для быстрого доступа к данным из arcana_data
-    arcana_dict = {(item.frame, item.object_name): item.arcane for item in arcana_data}
+    arcana_dict = {(item.frame, item.object_name)                   : item.arcane for item in arcana_data}
 
     # Обрабатываем каждый фрейм
     for frame_name, frame_objects in frames.items():
@@ -54,8 +77,11 @@ def add_text_to_image(image_path: str, output_path: str, objects_data: List[Foun
                             f"Не удалось загрузить шрифт {font_info.family}.")
                         continue
 
-                    # Вычисляем позицию для центрирования текста
-                    text_width, text_height = draw.textsize(arcane, font=font)
+                    # Вычисляем позицию для центрирования текста (используем textbbox)
+                    text_bbox = draw.textbbox((0, 0), arcane, font=font)
+                    text_width = text_bbox[2] - text_bbox[0]
+                    text_height = text_bbox[3] - text_bbox[1]
+
                     x = obj.x + (obj.width - text_width) / 2
                     y = obj.y + (obj.height - text_height) / 2
 
@@ -64,7 +90,7 @@ def add_text_to_image(image_path: str, output_path: str, objects_data: List[Foun
                               stroke_fill=font_info.stroke_fill, stroke_width=font_info.stroke_width)
 
                 # Сохраняем измененное изображение
-                img.save(f"{output_path}/{frame_name}_edited.png")
+                img.save(f"{output_path}/{frame_name}_page.png")
                 logger.info(
                     f"Изображение {frame_name} успешно обработано и сохранено.")
 
@@ -73,38 +99,4 @@ def add_text_to_image(image_path: str, output_path: str, objects_data: List[Foun
         except Exception as e:
             logger.error(f"Ошибка при обработке изображения {frame_name}: {e}")
 
-
-# Пример использования
-if __name__ == "__main__":
-    # Исходные данные
-    objects_data = [
-        FoundObject(frame='A4 - 1', object_name='Day', x=279.0,
-                    y=1308.0, width=220.0, height=220.0),
-        FoundObject(frame='A4 - 1', object_name='Month',
-                    x=1056.0, y=740.0, width=220.0, height=220.0),
-        FoundObject(frame='A4 - 2', object_name='Number 1',
-                    x=268.0, y=849.0, width=480.0, height=312.0),
-        # ... остальные объекты ...
-    ]
-
-    arcana_data = [
-        ArcanesObject(frame='A4 - 1', object_name='Day', arcane='5'),
-        ArcanesObject(frame='A4 - 1', object_name='Month', arcane='7'),
-        ArcanesObject(frame='A4 - 2', object_name='Number 1', arcane='11'),
-        # ... остальные данные ...
-    ]
-
-    fonts_mapping = {
-        'Day': Font(family='Gilroy-Bold.ttf', size=140, color='#E6DFD2'),
-        'Month': Font(family='Gilroy-Bold.ttf', size=140, color='#E6DFD2'),
-        'Number 1': Font(family='Gilroy-Semibold.ttf', size=120, color='#E3DDD0'),
-        # ... остальные шрифты ...
-    }
-
-    # Пути к файлам
-    image_path = "templates"  # Папка с шаблонами
-    output_path = "output"    # Папка для сохранения результатов
-
-    # Вызов функции
-    add_text_to_image(image_path, output_path, objects_data,
-                      arcana_data, fonts_mapping)
+    return True
