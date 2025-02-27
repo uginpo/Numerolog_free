@@ -90,7 +90,7 @@ def add_text_to_image(image_path: str,
                               stroke_fill=font_info.stroke_fill, stroke_width=font_info.stroke_width)
 
                 # Сохраняем измененное изображение
-                img.save(f"{output_path}/{frame_name}_page.png")
+                img.save(f"{output_path}/{frame_name[-2:].strip()}.png")
                 logger.info(
                     f"Изображение {frame_name} успешно обработано и сохранено.")
 

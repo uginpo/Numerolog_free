@@ -28,7 +28,7 @@ def create_pdf_from_images(client_name: str, input_folder: str, output_folder: s
 
     # Сортируем файлы по имени для правильного порядка страниц
     # Сортировка по номеру страницы
-    image_files.sort(key=lambda x: int(x.split("-")[1].split()[0]))
+    image_files.sort()
 
     # Создаем PDF-документ
     pdf_document = fitz.open()
