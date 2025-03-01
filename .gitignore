@@ -9,3 +9,5 @@ path.txt
 config/__pycache__/my_keys.cpython-313.pyc
 src/utils/numerolog.py
 logs/
+generator_stucture.py
+project_structure.txt

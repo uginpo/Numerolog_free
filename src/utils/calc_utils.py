@@ -1,7 +1,12 @@
 from datetime import date
-from typing import List, NamedTuple
+from typing import List, NamedTuple, Any
+from loguru import logger
+import random
+
 from constants.classes import Client, ArcanesObject
 from constants.fields import names_from_page1, names_from_page2, names_from_page3
+
+from text_storage.all_data_dict import all_arcanes_dict
 # утилиты для рассчета данных для первой страницы (звезда)
 
 
@@ -78,3 +83,46 @@ def get_pif_dict(birth: date, pifagor_additional: list) -> list:
     pif_data = [val if val else '0' for val in pif_dict.values()]
 
     return pif_data
+
+
+def get_content(object_name: str, arcane: int) -> str | None:
+    """Возвращает описание аркана
+
+    Args:
+        object_name (str): поле аркана
+        arcane (int): значение аркана
+
+    Returns:
+        str: Описание
+    """
+    if object_name in all_arcanes_dict:
+        information: Any = all_arcanes_dict[object_name][1]
+    else:
+        return None
+
+    content = information.get(arcane, None)
+    random_number = random.randint(0, 3)
+
+    if content:
+        return content[random_number]
+    else:
+        return None
+
+
+def get_title(object_name: str) -> Any:
+    """Возвращает заголовок подраздела для заполнения текстовых
+    данных страницы
+
+    Args:
+        object_name (str): поле аркана
+
+    Returns:
+        str: Название аркана (название подраздела)
+    """
+
+    if object_name in all_arcanes_dict:
+        title = all_arcanes_dict[object_name][0]
+    else:
+        title = None
+
+    return title

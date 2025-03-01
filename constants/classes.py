@@ -35,6 +35,8 @@ class ArcanesObject:
     frame: str  # Название фрейма
     object_name: str  # Название объекта
     arcane: str  # Значение аркана
+    title: Optional[str] = None  # Название аркана
+    content: Optional[str] = None  # Описание аркана
 
 
 # Шрифты

@@ -25,6 +25,14 @@ names_from_page3 = ['top', 'left_bottom', 'left_middle', 'right_middle',
 
 all_names = names_from_page1 + names_from_page2 + names_from_page3
 
+a = [SearchObject(frame='A4 - 1', object_name=name)
+     for name in names_from_page1]
+a.extend([SearchObject(frame='A4 - 2', object_name=name)
+         for name in names_from_page2])
+a.extend([SearchObject(frame='A4 - 3', object_name=name)
+         for name in names_from_page3])
+target_objects = a[:]
+
 target_objects = [
     # Личность Personality
     SearchObject(frame=page1, object_name='Month'),

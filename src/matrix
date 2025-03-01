@@ -6,7 +6,7 @@ import asyncio
 
 from dotenv import load_dotenv
 from config.settings import INFO_FILE, DEBUG_FILE, ERROR_FILE
-from config.settings import TEMPLATES_PATH, IMG_PATH, PDF_PATH
+from config.settings import TEMPLATES_PATH, IMG_PATH, PDF_PATH, HTML_PATH
 from constants.fields import target_objects, pages
 from src.clients_info import get_client_info
 from src.coordinates import get_coordinates
@@ -14,6 +14,7 @@ from figma_processing.templates_creator_async import export_figma_frames_to_png_
 from src.arcanes_manager import make_arcanese_for_templates
 from src.pages_from_arcanes import get_pages_img
 from page_processing.img2pdf import create_pdf_from_images
+from src.pages_from_text import get_pdf_from_txt
 
 # Функция для загрузки переменных окружения
 
@@ -110,11 +111,11 @@ def main():
     # Создание арканов для шаблонов
     logger.info("Создание арканов для шаблонов...")
     all_arcanes, fonts_mapping = make_arcanese_for_templates(
-        client_info=client_info, coordinates=coordinates)
+        client_info=client_info,
+        coordinates=coordinates
+    )
     if not all_arcanes or not fonts_mapping:
         logger.error("Не удалось создать аркан для шаблонов.")
-        raise RuntimeError(
-            "Критическая ошибка: отсутствует аркан для шаблонов.")
     # Создание шаблонов страниц из файла Figma
     logger.info("Создание шаблонов страниц...")
     result = asyncio.run(export_figma_frames_to_png_async(
@@ -125,8 +126,6 @@ def main():
     )
     if not result:
         logger.error("Не удалось создать шаблоны страниц.")
-        raise RuntimeError(
-            "Критическая ошибка: отсутствуют шаблоны страниц.")
 
     # Генерация заполненных страниц
     logger.info("Генерация заполнения страниц...")
@@ -137,9 +136,13 @@ def main():
                            fonts_mapping=fonts_mapping)
     if not result:
         logger.error("Не удалось сгенерировать заполненные страницы.")
-        raise RuntimeError(
-            "Критическая ошибка: не удалось создать страницы.")
+    # Генерация заполненных страниц описания арканов
+    logger.info("Генерация заполнения текстовых страниц...")
 
+    result = get_pdf_from_txt(arcana_data=all_arcanes)
+
+    if not result:
+        logger.error("Не удалось сгенерировать страницы описания арканов.")
     # Генерация конечного pdf файла профайлинга
     result = create_pdf_from_images(client_name=client_info.name,
                                     input_folder=IMG_PATH,
@@ -147,8 +150,6 @@ def main():
                                     )
     if not result:
         logger.error("Не удалось создать конечный отчет.")
-        raise RuntimeError(
-            "Критическая ошибка: не удалось создать pdf файл.")
 
     # Завершение работы программы
     logger.info("Программа успешно завершила работу.")

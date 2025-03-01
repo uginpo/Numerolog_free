@@ -3,7 +3,7 @@ from typing import List, NamedTuple
 from constants.classes import Client, ArcanesObject
 from constants.fields import names_from_page1, names_from_page2, names_from_page3
 from src.utils.calc_utils import num_to_single, get_additional, get_pif_additional
-from src.utils.calc_utils import get_pif_dict
+from src.utils.calc_utils import get_pif_dict, get_content, get_title
 
 
 def get_page1_arcanes(page_num: str, client_info: Client) -> List[ArcanesObject]:
@@ -44,7 +44,11 @@ def get_page1_arcanes(page_num: str, client_info: Client) -> List[ArcanesObject]
     arcanes.append(
         f'{client_name} {birth.strftime("%d.%m.%Y")}')
 
-    main_arcanes = [ArcanesObject(frame=page_num, object_name=name, arcane=str(value))
+    main_arcanes = [ArcanesObject(frame=page_num,
+                                  object_name=name,
+                                  arcane=str(value),
+                                  title=get_title(name),
+                                  content=get_content(name, int(value)))
                     for name, value in zip(names, arcanes)]
 
     return main_arcanes
