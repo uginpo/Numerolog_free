@@ -1,14 +1,13 @@
 from datetime import datetime, date
-from loguru import logger
 from src.gui.gui_main import enter_data
-from constants.classes import Client
+from classes.arcanes_classes import Client
 
 
 def get_client_info() -> Client:
+    """Обращается к функции ввода имени и ДР клиента
+
+    Returns:
+        Client: Имя и ДР Клиента
+    """
     client = enter_data()
-    logger.debug(client)
     return Client(*client)
-
-
-if __name__ == '__main__':
-    print(get_client_info())

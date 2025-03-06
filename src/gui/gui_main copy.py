@@ -55,41 +55,30 @@ def enter_data() -> tuple:
 
     # Создание основного окна
     root = tk.Tk()
-    root.title("Нумерологический профайлинг (free)")
-
-    # Настройка размеров главного окна
-    main_window_width = 600
-    main_window_height = 400
-    center_window(root, main_window_width, main_window_height)
-
-    # Добавляем заголовок в верхней части окна
-    header_label = tk.Label(
-        root,
-        text="Нумерологический профайлинг (free)",
-        font=("Arial", 16, "bold")
-    )
-    header_label.pack(pady=20)
-
-    # Создаем фрейм для формы ввода данных
-    form_frame = tk.Frame(root, bg="lightgray", padx=20, pady=20)
-    # Размещаем фрейм по центру окна
-    form_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+    root.title("Ввод данных")
 
     # Переменная для хранения результата
     result = None
 
-    # Создание элементов интерфейса внутри фрейма
-    label_date = tk.Label(form_frame, text="Введите дату (dd.mm.yyyy):")
+    # Настройка окна
+    window_width = 400
+    window_height = 150
+    center_window(root, window_width, window_height)
+    root.protocol("WM_DELETE_WINDOW", on_closing)
+    root.grid_columnconfigure(1, weight=1)
+
+    # Создание элементов интерфейса
+    label_date = tk.Label(root, text="Введите дату (dd.mm.yyyy):")
     label_date.grid(row=0, column=0, padx=10, pady=10, sticky="w")
-    entry_date = tk.Entry(form_frame)
+    entry_date = tk.Entry(root)
     entry_date.grid(row=0, column=1, padx=10, pady=10, sticky="ew")
 
-    label_name = tk.Label(form_frame, text="Введите имя:")
+    label_name = tk.Label(root, text="Введите имя:")
     label_name.grid(row=1, column=0, padx=10, pady=10, sticky="w")
-    entry_name = tk.Entry(form_frame)
+    entry_name = tk.Entry(root)
     entry_name.grid(row=1, column=1, padx=10, pady=10, sticky="ew")
 
-    submit_button = tk.Button(form_frame, text="Отправить", command=submit)
+    submit_button = tk.Button(root, text="Отправить", command=submit)
     submit_button.grid(row=2, column=0, columnspan=2, pady=10, sticky="ew")
 
     # Устанавливаем фокус на поле ввода даты
@@ -110,7 +99,6 @@ def enter_data() -> tuple:
     submit_button.bind("<Return>", on_enter_submit)
 
     # Запуск основного цикла обработки событий
-    root.protocol("WM_DELETE_WINDOW", on_closing)
     root.mainloop()
 
     # Проверяем результат
@@ -118,12 +106,3 @@ def enter_data() -> tuple:
         return result
     else:
         raise ValueError('Не введены данные клиента')
-
-
-# Пример использования
-if __name__ == "__main__":
-    try:
-        name, date_obj = enter_data()
-        print(f"Имя: {name}, Дата: {date_obj}")
-    except ValueError as e:
-        print(f"Ошибка: {e}")

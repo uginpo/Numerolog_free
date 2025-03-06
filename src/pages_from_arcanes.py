@@ -1,23 +1,38 @@
-from typing import List, Dict
-from constants.classes import ArcanesObject, FoundObject, Font
-
-from page_processing.acranes2image import add_text_to_image
+from typing import Dict
+from classes.arcanes_classes import Star
 
 
-def get_pages_img(image_path: str, output_path: str, objects_data: List[FoundObject],
-                  arcana_data: List[ArcanesObject], fonts_mapping: Dict[str, Font]) -> bool:
-    """Добавляет посчитанные значения арканов в шаблоны страниц
+def get_star_content(star: Star) -> Dict:
+    """Возвращает словарь с данными для заполнения
+    html шаблона страницы
 
     Args:
-        image_path (str): Путь к исходному изображению (шаблону).
-        output_path (str): Путь для сохранения страниц.
-        objects_data (List[FoundObject]): Список объектов с координатами и размерами.
-        arcana_data (List[ArcanesObject]): Список данных для вставки.
-        fonts_mapping (Dict[str, Font]): Словарь с параметрами шрифтов.
+        client_data (Star): Класс, соответствующий странице
+
     Returns:
-        bool: Индикатор успешности заполнения страниц.
+        Dict: Словарь с контентом
     """
 
-    result = add_text_to_image(image_path, output_path, objects_data, arcana_data,
-                               fonts_mapping)
-    return result
+    # Форматируем дату в строку "ДД.ММ.ГГГГ"
+    formatted_birthdate = star.client_info.birthday.strftime("%d.%m.%Y")
+
+    return {
+        "name": star.client_info.name,
+        "birthdate": formatted_birthdate,
+        "personality": str(star.personality),
+        "spirituality": str(star.spirituality),
+        "money": str(star.money),
+        "relationship": str(star.relationship),
+        "health": str(star.health),
+        "pat_male_line_err": str(star.pat_male_line_err),
+        "mat_male_line_err": str(star.mat_male_line_err),
+        "pat_female_line_err": str(star.pat_female_line_err),
+        "doom_err": str(star.doom_err),
+        "mat_female_line_err": str(star.mat_female_line_err),
+        "mission": str(star.mission),
+        "foot_personality": str(star.personality),
+        "foot_spirituality": str(star.spirituality),
+        "foot_money": str(star.money),
+        "foot_relationship": str(star.relationship),
+        "foot_health": str(star.health),
+    }

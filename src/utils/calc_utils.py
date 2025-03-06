@@ -3,40 +3,9 @@ from typing import List, NamedTuple, Any
 from loguru import logger
 import random
 
-from constants.classes import Client, ArcanesObject
-from constants.fields import names_from_page1, names_from_page2, names_from_page3
+from classes.arcanes_classes import Client
 
-from text_storage.all_data_dict import all_arcanes_dict
 # утилиты для рассчета данных для первой страницы (звезда)
-
-
-def num_to_single(num):
-    """Рассчитывает одно число из суммы цифр числа num
-    Args:
-        num (int): number
-    Returns:
-        int: one number
-    """
-    string = str(num)
-
-    while len(string) > 1:
-        string = str(sum([int(item) for item in string]))
-
-    return int(string)
-
-
-def get_additional(main_data: list) -> list:
-    """Возвращает дополнительные числа, рассчитанными попарно из основных
-    Args:
-        main_data (list): главные арканы
-    Returns:
-        list: [day_month, month_year, year_sum3, sum3_sum4, sum4_day]
-    """
-    temp = main_data[:]
-    result = [num_to_single(temp[i]+temp[i+1]) for i in range(len(temp)-1)]
-    result.append(num_to_single(temp[0]+temp[-1]))
-
-    return result
 
 
 def get_pif_additional(birth: date) -> tuple:
