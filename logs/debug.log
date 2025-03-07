@@ -42,3 +42,195 @@
   Ошибка мамы (жен. линия): 6
 
 06-03-2025 at 21:38:31 | DEBUG | {'name': 'Julia', 'birthdate': '23.07.1982', 'personality': '5', 'spirituality': '7', 'money': '2', 'relationship': '5', 'health': '1', 'pat_male_line_err': '3', 'mat_male_line_err': '9', 'pat_female_line_err': '7', 'doom_err': '6', 'mat_female_line_err': '6', 'mission': '2', 'foot_personality': '5', 'foot_spirituality': '7', 'foot_money': '2', 'foot_relationship': '5', 'foot_health': '1'}
+07-03-2025 at 22:06:51 | DEBUG | Имя и ДР клиента Client(name='Julia', birthday=datetime.date(1982, 7, 23))
+07-03-2025 at 22:06:51 | DEBUG | Star для Julia (1982-07-23):
+---------------------
+Блок Звезды:
+  personality: 5
+  spirituality: 7
+  money: 2
+  relationship: 5
+  health: 1
+  mission: 2
+
+Блок Ошибок:
+  Ошибка отца (муж. линия): 3
+  Ошибка мамы (муж. линия): 9
+  Ошибка отца (жен. линия): 7
+  Роковая ошибка: 6
+  Ошибка мамы (жен. линия): 6
+
+07-03-2025 at 22:06:51 | DEBUG | {'name': 'Julia', 'birthdate': '23.07.1982', 'personality': '5', 'spirituality': '7', 'money': '2', 'relationship': '5', 'health': '1', 'pat_male_line_err': '3', 'mat_male_line_err': '9', 'pat_female_line_err': '7', 'doom_err': '6', 'mat_female_line_err': '6', 'mission': '2', 'foot_personality': '5', 'foot_spirituality': '7', 'foot_money': '2', 'foot_relationship': '5', 'foot_health': '1'}
+07-03-2025 at 22:07:57 | DEBUG | Имя и ДР клиента Client(name='Julia', birthday=datetime.date(1982, 7, 23))
+07-03-2025 at 22:07:57 | DEBUG | Star для Julia (1982-07-23):
+---------------------
+Блок Звезды:
+  personality: 5
+  spirituality: 7
+  money: 2
+  relationship: 5
+  health: 1
+  mission: 2
+
+Блок Ошибок:
+  Ошибка отца (муж. линия): 3
+  Ошибка мамы (муж. линия): 9
+  Ошибка отца (жен. линия): 7
+  Роковая ошибка: 6
+  Ошибка мамы (жен. линия): 6
+
+07-03-2025 at 22:07:57 | DEBUG | {'name': 'Julia', 'birthdate': '23.07.1982', 'personality': '5', 'spirituality': '7', 'money': '2', 'relationship': '5', 'health': '1', 'pat_male_line_err': '3', 'mat_male_line_err': '9', 'pat_female_line_err': '7', 'doom_err': '6', 'mat_female_line_err': '6', 'mission': '2', 'foot_personality': '5', 'foot_spirituality': '7', 'foot_money': '2', 'foot_relationship': '5', 'foot_health': '1'}
+07-03-2025 at 22:12:53 | DEBUG | Имя и ДР клиента Client(name='Julia', birthday=datetime.date(1982, 7, 23))
+07-03-2025 at 22:12:53 | DEBUG | Star для Julia (1982-07-23):
+---------------------
+Блок Звезды:
+  personality: 5
+  spirituality: 7
+  money: 2
+  relationship: 5
+  health: 1
+  mission: 2
+
+Блок Ошибок:
+  Ошибка отца (муж. линия): 3
+  Ошибка мамы (муж. линия): 9
+  Ошибка отца (жен. линия): 7
+  Роковая ошибка: 6
+  Ошибка мамы (жен. линия): 6
+
+07-03-2025 at 22:12:53 | DEBUG | {'name': 'Julia', 'birthdate': '23.07.1982', 'personality': '5', 'spirituality': '7', 'money': '2', 'relationship': '5', 'health': '1', 'pat_male_line_err': '3', 'mat_male_line_err': '9', 'pat_female_line_err': '7', 'doom_err': '6', 'mat_female_line_err': '6', 'mission': '2', 'foot_personality': '5', 'foot_spirituality': '7', 'foot_money': '2', 'foot_relationship': '5', 'foot_health': '1'}
+07-03-2025 at 22:12:53 | DEBUG | Pifagor для Julia (23.7.1982):
+---------------------
+Блок Дополнительные числа:
+  pif1: 32
+  pif1: 5
+  pif1: 28
+  pif1: 1
+  pif1: 0
+Блок Матрицы Пифагора:
+  единицы: 11
+  двойки: 2222
+  тройки: 33
+  четверки: 
+  пятерки: 5
+  шестерки: 
+  семерки: 7
+  восьмерки: 88
+  девятки: 9
+
+07-03-2025 at 22:29:01 | DEBUG | Имя и ДР клиента Client(name='Julia', birthday=datetime.date(1982, 7, 23))
+07-03-2025 at 22:29:01 | DEBUG | Star для Julia (1982-07-23):
+---------------------
+Блок Звезды:
+  personality: 5
+  spirituality: 7
+  money: 2
+  relationship: 5
+  health: 1
+  mission: 2
+
+Блок Ошибок:
+  Ошибка отца (муж. линия): 3
+  Ошибка мамы (муж. линия): 9
+  Ошибка отца (жен. линия): 7
+  Роковая ошибка: 6
+  Ошибка мамы (жен. линия): 6
+
+07-03-2025 at 22:29:01 | DEBUG | {'name': 'Julia', 'birthdate': '23.07.1982', 'personality': '5', 'spirituality': '7', 'money': '2', 'relationship': '5', 'health': '1', 'pat_male_line_err': '3', 'mat_male_line_err': '9', 'pat_female_line_err': '7', 'doom_err': '6', 'mat_female_line_err': '6', 'mission': '2', 'foot_personality': '5', 'foot_spirituality': '7', 'foot_money': '2', 'foot_relationship': '5', 'foot_health': '1'}
+07-03-2025 at 22:29:01 | DEBUG | Pifagor для Julia (23.7.1982):
+---------------------
+Блок Дополнительные числа:
+  pif1: 32
+  pif1: 5
+  pif1: 28
+  pif1: 1
+  pif1: 0
+Блок Матрицы Пифагора:
+  единицы: 11
+  двойки: 2222
+  тройки: 33
+  четверки: 
+  пятерки: 5
+  шестерки: 
+  семерки: 7
+  восьмерки: 88
+  девятки: 9
+
+07-03-2025 at 22:31:55 | DEBUG | Имя и ДР клиента Client(name='Julia', birthday=datetime.date(1982, 7, 23))
+07-03-2025 at 22:31:55 | DEBUG | Star для Julia (1982-07-23):
+---------------------
+Блок Звезды:
+  personality: 5
+  spirituality: 7
+  money: 2
+  relationship: 5
+  health: 1
+  mission: 2
+
+Блок Ошибок:
+  Ошибка отца (муж. линия): 3
+  Ошибка мамы (муж. линия): 9
+  Ошибка отца (жен. линия): 7
+  Роковая ошибка: 6
+  Ошибка мамы (жен. линия): 6
+
+07-03-2025 at 22:31:55 | DEBUG | {'name': 'Julia', 'birthdate': '23.07.1982', 'personality': '5', 'spirituality': '7', 'money': '2', 'relationship': '5', 'health': '1', 'pat_male_line_err': '3', 'mat_male_line_err': '9', 'pat_female_line_err': '7', 'doom_err': '6', 'mat_female_line_err': '6', 'mission': '2', 'foot_personality': '5', 'foot_spirituality': '7', 'foot_money': '2', 'foot_relationship': '5', 'foot_health': '1'}
+07-03-2025 at 22:31:55 | DEBUG | Pifagor для Julia (23.7.1982):
+---------------------
+Блок Дополнительные числа:
+  pif1: 32
+  pif1: 5
+  pif1: 28
+  pif1: 1
+  pif1: 0
+Блок Матрицы Пифагора:
+  единицы: 11
+  двойки: 2222
+  тройки: 33
+  четверки: 
+  пятерки: 5
+  шестерки: 
+  семерки: 7
+  восьмерки: 88
+  девятки: 9
+
+07-03-2025 at 22:31:55 | DEBUG | {'name': 'Julia', 'birthdate': '23.7.1982', 'additional_pif': '32 5 28 1 0', 'number1': '11', 'number2': '2222', 'number3': '33', 'number4': '', 'number5': '5', 'number6': '', 'number7': '7', 'number8': '88', 'number9': '9'}
+07-03-2025 at 22:38:58 | DEBUG | Имя и ДР клиента Client(name='Julia', birthday=datetime.date(1982, 7, 23))
+07-03-2025 at 22:38:58 | DEBUG | Star для Julia (1982-07-23):
+---------------------
+Блок Звезды:
+  personality: 5
+  spirituality: 7
+  money: 2
+  relationship: 5
+  health: 1
+  mission: 2
+
+Блок Ошибок:
+  Ошибка отца (муж. линия): 3
+  Ошибка мамы (муж. линия): 9
+  Ошибка отца (жен. линия): 7
+  Роковая ошибка: 6
+  Ошибка мамы (жен. линия): 6
+
+07-03-2025 at 22:38:58 | DEBUG | {'name': 'Julia', 'birthdate': '23.07.1982', 'personality': '5', 'spirituality': '7', 'money': '2', 'relationship': '5', 'health': '1', 'pat_male_line_err': '3', 'mat_male_line_err': '9', 'pat_female_line_err': '7', 'doom_err': '6', 'mat_female_line_err': '6', 'mission': '2', 'foot_personality': '5', 'foot_spirituality': '7', 'foot_money': '2', 'foot_relationship': '5', 'foot_health': '1'}
+07-03-2025 at 22:38:58 | DEBUG | Pifagor для Julia (23.7.1982):
+---------------------
+Блок Дополнительные числа:
+  pif1: 32
+  pif1: 5
+  pif1: 28
+  pif1: 1
+  pif1: 0
+Блок Матрицы Пифагора:
+  единицы: 11
+  двойки: 2222
+  тройки: 33
+  четверки: 
+  пятерки: 5
+  шестерки: 
+  семерки: 7
+  восьмерки: 88
+  девятки: 9
+
+07-03-2025 at 22:38:58 | DEBUG | {'name': 'Julia', 'birthdate': '23.7.1982', 'additional_pif': '32 5 28 1', 'number1': '11', 'number2': '2222', 'number3': '33', 'number4': '', 'number5': '5', 'number6': '', 'number7': '7', 'number8': '88', 'number9': '9'}

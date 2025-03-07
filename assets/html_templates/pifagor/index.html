@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Пифагоров Древо</title>
+</head>
+<body>
+  <div class="pifagor">
+    <img src="img.png" alt="Пифагорово древо">
+    <header class="header">
+      <div class="container">
+        <p class="header_font">{{ name }} {{ birthdate }} {{ additional_pif}}</p>
+      </div>
+    </header>
+    <div class="main">
+      <!-- Элементы с плейсхолдерами -->
+      <span class="number" data-number="1">{{ number1 }}</span>
+      <span class="number" data-number="2">{{ number2 }}</span>
+      <span class="number" data-number="3">{{ number3 }}</span>
+      <span class="number" data-number="4">{{ number4 }}</span>
+      <span class="number" data-number="5">{{ number5 }}</span>
+      <span class="number" data-number="6">{{ number6 }}</span>
+      <span class="number" data-number="7">{{ number7 }}</span>
+      <span class="number" data-number="8">{{ number8 }}</span>
+      <span class="number" data-number="9">{{ number9 }}</span>
+    </div>
+  </div>
+
+  <!-- Подключение JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>

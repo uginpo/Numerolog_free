@@ -7,8 +7,8 @@ from typing import Dict
 
 from config.settings import INFO_FILE, DEBUG_FILE, ERROR_FILE
 from src.clients_info import get_client_info
-from src.pages_from_arcanes import get_star_content
-from classes.arcanes_classes import Client, Star
+from src.pages_from_arcanes import get_star_content, get_pifagor_content
+from classes.arcanes_classes import Client, Star, Pifagor
 
 
 # Функция для настройки логгера
@@ -62,14 +62,25 @@ def main():
     # Создание контекста для шаблонов страниц
     logger.info("Создание контента страниц...")
 
+    logger.info("Создание контента страницы star")
     client_star = f'{client_info.name}_star'
     client_star = Star(client_info)
     logger.debug(f'{client_star}')
 
     page_star_content = get_star_content(star=client_star)
     logger.debug(f'{page_star_content}')
-    logger.info("Завершение создания контента страниц")
+    logger.info("Завершение создания контента страницы star")
 
+    logger.info("Создание контента страницы pifagor")
+    client_pifagor = f'{client_info.name}_pifagor'
+    client_pifagor = Pifagor(client_star)
+    logger.debug(f'{client_pifagor}')
+
+    page_pifagor_content = get_pifagor_content(pifagor=client_pifagor)
+    logger.debug(f'{page_pifagor_content}')
+    logger.info("Завершение создания контента страницы pifagor")
+
+    logger.info("Завершение создания контента страниц")
     # Завершение работы программы
     logger.info("Программа успешно завершила работу.")
 #

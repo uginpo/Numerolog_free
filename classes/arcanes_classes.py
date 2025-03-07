@@ -11,7 +11,7 @@ class Client:
 
 
 class Star:
-    """Класс Звезда вычисляет и хранит данные для заполнения страницы Звезда
+    """Класс Star вычисляет и хранит данные для заполнения страницы Звезда
     """
 
     def __init__(self, client_info: Client) -> None:
@@ -91,14 +91,6 @@ class Star:
 
         return int(string)
 
-    @staticmethod
-    def sum_digits(n: int) -> int:
-        """Суммирует цифры числа. Нужна проверка на превышение 22 для 
-        уровня professional"""
-
-        result = sum(int(d) for d in str(n))
-        return result
-
     def __repr__(self):
         return (
             f"Star для {self.client_info.name} ({self.client_info.birthday}):\n"
@@ -116,4 +108,85 @@ class Star:
             f"  Ошибка отца (жен. линия): {self.pat_female_line_err}\n"
             f"  Роковая ошибка: {self.doom_err}\n"
             f"  Ошибка мамы (жен. линия): {self.mat_female_line_err}\n"
+        )
+
+
+class Pifagor:
+    """Класс Pifagor вычисляет и хранит данные для заполнения страницы Звезда
+    """
+
+    def __init__(self, star: Star) -> None:
+        self._DAY = star.client_info.birthday.day
+        self._MONTH = star.client_info.birthday.month
+        self._YEAR = star.client_info.birthday.year
+        self._NAME = star.client_info.name
+
+        # Блок рассчета дополнительных чисел
+        # Сумма всех цифр даты рождения
+        self.pif1: int = self.sum_digits(
+            int(star.client_info.birthday.strftime('%d%m%Y'))
+        )
+        # Сводим pif1 к однозначному числу (корню), если это
+        # значение не 11, 22, 33, 44
+        self.pif2: int = star.digital_root(
+            self.pif1) if self.pif1 not in (11, 22, 33, 44) else self.pif1
+
+        # Из первого числа отнимаем 2*первое не нулевое число
+        # дня рождения, если ДР>=2000г, pif3=19
+        self.pif3: int = self.pif1 - 2 * \
+            int(str(self._DAY)[0]) if self.before_2000() else 19
+
+        # Сводим pif3 к одному числу. Если ДР>=2000 pif1 + pif3
+        self.pif4: int = star.digital_root(
+            self.pif3) if self.before_2000() else self.pif1 + self.pif3
+
+        # не равно 0, только если ДР>=2000
+        self.pif5: int = 0 if self.before_2000() else star.digital_root(self.pif4)
+
+        # Блок данных для матрицы Пифагора
+        string = f'{self._DAY}{self._MONTH}{self._YEAR}{self.pif1}{self.pif2}{self.pif3}{self.pif4}{self.pif5}'
+        self.number1: str = self.get_string(string=string, s='1')
+        self.number2: str = self.get_string(string=string, s='2')
+        self.number3: str = self.get_string(string=string, s='3')
+        self.number4: str = self.get_string(string=string, s='4')
+        self.number5: str = self.get_string(string=string, s='5')
+        self.number6: str = self.get_string(string=string, s='6')
+        self.number7: str = self.get_string(string=string, s='7')
+        self.number8: str = self.get_string(string=string, s='8')
+        self.number9: str = self.get_string(string=string, s='9')
+
+    def before_2000(self) -> bool:
+        return self._YEAR < 2000
+
+    @staticmethod
+    def get_string(string: str, s: str) -> str:
+        """Возвращает подстроку string из символов s
+        """
+        return s * string.count(s)
+
+    @staticmethod
+    def sum_digits(n: int) -> int:
+        """Суммирует цифры числа"""
+        return sum(int(d) for d in str(n))
+
+    def __repr__(self):
+        return (
+            f"Pifagor для {self._NAME} ({self._DAY}.{self._MONTH}.{self._YEAR}):\n"
+            "---------------------\n"
+            "Блок Дополнительные числа:\n"
+            f"  pif1: {self.pif1}\n"
+            f"  pif1: {self.pif2}\n"
+            f"  pif1: {self.pif3}\n"
+            f"  pif1: {self.pif4}\n"
+            f"  pif1: {self.pif5}\n"
+            "Блок Матрицы Пифагора:\n"
+            f"  единицы: {self.number1}\n"
+            f"  двойки: {self.number2}\n"
+            f"  тройки: {self.number3}\n"
+            f"  четверки: {self.number4}\n"
+            f"  пятерки: {self.number5}\n"
+            f"  шестерки: {self.number6}\n"
+            f"  семерки: {self.number7}\n"
+            f"  восьмерки: {self.number8}\n"
+            f"  девятки: {self.number9}\n"
         )
