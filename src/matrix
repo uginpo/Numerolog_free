@@ -8,7 +8,8 @@ from typing import Dict
 from config.settings import INFO_FILE, DEBUG_FILE, ERROR_FILE
 from src.clients_info import get_client_info
 from src.pages_from_arcanes import get_star_content, get_pifagor_content
-from classes.arcanes_classes import Client, Star, Pifagor
+from src.pages_from_arcanes import get_money_content
+from classes.arcanes_classes import Client, Star, Pifagor, Money
 
 
 # Функция для настройки логгера
@@ -79,6 +80,15 @@ def main():
     page_pifagor_content = get_pifagor_content(pifagor=client_pifagor)
     logger.debug(f'{page_pifagor_content}')
     logger.info("Завершение создания контента страницы pifagor")
+
+    logger.info("Создание контента страницы money")
+    client_money = f'{client_info.name}_money'
+    client_money = Money(client_star)
+    logger.debug(f'{client_money}')
+
+    page_money_content = get_money_content(money=client_money)
+    logger.debug(f'{page_money_content}')
+    logger.info("Завершение создания контента страницы money")
 
     logger.info("Завершение создания контента страниц")
     # Завершение работы программы

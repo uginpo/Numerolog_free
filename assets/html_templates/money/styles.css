@@ -1,0 +1,49 @@
+:root {
+  --money-width: 2380px;
+  --money-height: 3368px;
+  --font-color-main_vtx: rgb(4, 7, 15);
+  --font-color-main: rgb(230, 223, 210);
+}
+
+/* Основной контейнер */
+.money {
+  position: relative;
+  width: var(--money-width);
+  height: var(--money-height);
+}
+
+/* Контейнер с цифрами */
+.main {
+  position: relative;
+  width: 1844px;
+  height: 1687px;
+  left: 268px;
+  top: 846px;
+}
+
+/* Заголовок */
+.main_vtx {
+  position: absolute;
+  width: 68px;
+  height: 168px;
+  left: 600px;
+  top: -3200px;
+  color: var(--font-color-main);
+  font-family: Roboto;
+  font-size: 160px;
+  font-weight: 600;
+  line-height: 188px;
+  text-align: center;
+}
+
+/* Стили для чисел */
+.number {
+  position: absolute;
+  font-family: Roboto;
+  font-size: 140px;
+  font-weight: 700;
+  line-height: 164px;
+  text-align: center;
+  color: var(--font-color-main);
+  opacity: 0.98;
+}

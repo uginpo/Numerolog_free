@@ -11,3 +11,4 @@ src/utils/numerolog.py
 logs/
 generator_stucture.py
 project_structure.txt
+assets/image_templates/

@@ -1,5 +1,5 @@
 from typing import Dict
-from classes.arcanes_classes import Star, Pifagor
+from classes.arcanes_classes import Star, Pifagor, Money
 
 
 def get_star_content(star: Star) -> Dict:
@@ -66,4 +66,25 @@ def get_pifagor_content(pifagor: Pifagor) -> Dict:
         "number7": pifagor.number7,
         "number8": pifagor.number8,
         "number9": pifagor.number9,
+    }
+
+
+def get_money_content(money: Money) -> Dict:
+    """Возвращает словарь с данными для заполнения
+    html шаблона страницы
+
+    Args:
+        money (Money): Класс, соответствующий странице
+
+    Returns:
+        Dict: Словарь с контентом
+    """
+
+    return {
+        "number1": money.money,
+        "number2": money.mat_vtx,
+        "number3": money.pat_vtx,
+        "number4": money.mat_male_line_err,
+        "number5": money.main_vtx,
+        "number6": money.pat_female_line_err,
     }

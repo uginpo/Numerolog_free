@@ -190,3 +190,54 @@ class Pifagor:
             f"  восьмерки: {self.number8}\n"
             f"  девятки: {self.number9}\n"
         )
+
+
+class Money:
+    """Класс Money вычисляет и хранит данные для заполнения страницы
+    основного и перевернутого треугольника
+    """
+
+    def __init__(self, star: Star) -> None:
+
+        self._DAY = star.client_info.birthday.day
+        self._MONTH = star.client_info.birthday.month
+        self._YEAR = star.client_info.birthday.year
+        self._NAME = star.client_info.name
+
+        # Назначение переменных блока основной треугольник
+        self.money: int = star.money
+        self.mat_male_line_err: int = star.mat_male_line_err
+        self.pat_female_line_err: int = star.pat_female_line_err
+
+        # Рассчет переменных перевернутого треугольника
+        # Вершина перевернутого треугольника
+        self.main_vtx: int = star.digital_root(
+            self.mat_male_line_err +
+            self.pat_female_line_err
+        )
+
+        # Материнский род (слева)
+        self.mat_vtx: int = star.digital_root(
+            self.mat_male_line_err +
+            self.money
+        )
+
+        # Отцовский род (справа)
+        self.pat_vtx: int = star.digital_root(
+            self.pat_female_line_err +
+            self.money
+        )
+
+    def __repr__(self):
+        return (
+            f"Money для {self._NAME} ({self._DAY}.{self._MONTH}.{self._YEAR}):\n"
+            "---------------------\n"
+            "Блок Основной треугольник:\n"
+            f"  money: {self.money}\n"
+            f"  mat_male_line_err: {self.mat_male_line_err:}\n"
+            f"  pat_female_line_err: {self.pat_female_line_err}\n"
+            "Блок Перевернутый треугольник:\n"
+            f"  Вершина треугольника: {self.mat_vtx}\n"
+            f"  Материнский род (слева): {self.mat_vtx}\n"
+            f"  Отцовский род (справа): {self.pat_vtx}\n"
+        )
