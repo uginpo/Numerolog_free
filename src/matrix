@@ -2,14 +2,18 @@
 from loguru import logger
 from pathlib import Path
 import os
-import asyncio
 from typing import Dict
 
 from config.settings import INFO_FILE, DEBUG_FILE, ERROR_FILE
+from config.settings import TEMPLATES_PATH, PDF_PATH
+from classes.arcanes_classes import Client, Star, Pifagor, Money
+from text_storage.DB_star_dict import star_dict
+
 from src.clients_info import get_client_info
 from src.pages_from_arcanes import get_star_content, get_pifagor_content
 from src.pages_from_arcanes import get_money_content
-from classes.arcanes_classes import Client, Star, Pifagor, Money
+from src.pages_from_analitics import get_star_analitics
+from src.utils.create_pdf_pages import get_pdf_star
 
 
 # Функция для настройки логгера
@@ -50,12 +54,12 @@ def main():
     1. Настройка логгера.
     3. Получение данных клиента.
     4. Создание арканов для шаблонов.
-    5. Генерация PDF матрицы судьбы.
+    5. Генерация профайлингов звезды и денежного треугольника.
     """
     # Настройка логгера
     configure_logger()
 
-    # Получение данных клиента и координат
+    # Получение данных клиента
     logger.info("Получение данных клиента...")
     client_info = get_client_info()
     logger.debug(f'Имя и ДР клиента {client_info}')
@@ -64,7 +68,6 @@ def main():
     logger.info("Создание контента страниц...")
 
     logger.info("Создание контента страницы star")
-    client_star = f'{client_info.name}_star'
     client_star = Star(client_info)
     logger.debug(f'{client_star}')
 
@@ -72,8 +75,23 @@ def main():
     logger.debug(f'{page_star_content}')
     logger.info("Завершение создания контента страницы star")
 
+    logger.info("Создание pdf страницы star...")
+    result = get_pdf_star(
+        page_star_content=page_star_content,
+        templates=TEMPLATES_PATH,
+        output=PDF_PATH
+    )
+    logger.info("Завершение создания pdf страницы star")
+
+    logger.info("Создание аналитика арканов со страницы star...")
+    star_analytics = get_star_analitics(
+        star=client_star,
+        star_dict=star_dict
+    )
+    logger.debug(f'{star_analytics}')
+    logger.info("Завершение аналитики арканов со страницы star")
+
     logger.info("Создание контента страницы pifagor")
-    client_pifagor = f'{client_info.name}_pifagor'
     client_pifagor = Pifagor(client_star)
     logger.debug(f'{client_pifagor}')
 
@@ -82,7 +100,6 @@ def main():
     logger.info("Завершение создания контента страницы pifagor")
 
     logger.info("Создание контента страницы money")
-    client_money = f'{client_info.name}_money'
     client_money = Money(client_star)
     logger.debug(f'{client_money}')
 

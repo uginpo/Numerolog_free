@@ -1,10 +1,38 @@
+from typing import Dict
+from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
 from weasyprint import HTML, CSS  # type: ignore
 import os
 
-from typing import List, Dict
-from pathlib import Path
-from constants.classes import ArcanesObject
+from classes.arcanes_classes import Star, Pifagor, Money
+
+from config.settings import TEMPLATE_HTML, TEMPLATE_IMG, TEMPLATE_CSS, TEMPLATE_JS
+
+
+def get_pdf_star(page_star_content: Dict, templates: Path, output: Path) -> bool:
+    """_summary_
+
+    Args:
+        page_star_content (Dict): Арканы звезды для печати
+        templates (Path): путь к шаблонам страницы
+        output (Path): путь к файлу отчета (профайлингу)
+
+    Returns:
+        bool: успешность создания файла отчета
+    """
+    html = templates/star/TEMPLATE_HTML
+    img = templates/star/TEMPLATE_IMG
+    css = templates/star/TEMPLATE_CSS
+
+    profiling_file = output/f'{page_star_content["name"]}_star.pdf'
+
+    result = generate_pdf_report(
+        my_html=html,
+        my_css=css,
+        my_pdf=profiling_file,
+        text_data=page_star_content
+    )
+    return result
 
 
 def generate_pdf_report(my_html: Path,
@@ -51,7 +79,7 @@ def generate_pdf_report(my_html: Path,
 
     # Генерация PDF
     HTML(temp_html).write_pdf(
-        output_filename,
+        my_pdf,
         stylesheets=[a4_css, CSS(filename='styles.css')],
         presentational_hints=True
     )
@@ -60,24 +88,3 @@ def generate_pdf_report(my_html: Path,
     os.remove(temp_html)
 
     return True
-
-
-# Пример использования
-if __name__ == "__main__":
-    sample_data = {
-        "sections": [
-            {
-                "title": "Личность",
-                "number": 1,
-                "content": "Текст описания личности..."
-            },
-            {
-                "title": "Духовность",
-                "number": 7,
-                "content": "Текст о духовности..."
-            },
-            # ... остальные секции
-        ]
-    }
-
-    generate_pdf_report(sample_data, 'my_report.pdf')

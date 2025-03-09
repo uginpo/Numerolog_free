@@ -5,11 +5,12 @@ DEBUG_FILE = Path('logs/debug.log')
 ERROR_FILE = Path('logs/error.log')
 
 
-# Блок с путями к шаблонам страниц
-TEXT_PDF_FILES = ['result.pdf']
+# Блок с путями к шаблонам страниц и именам шаблонов
+TEMPLATES_PATH = Path('assets/html_templates')
+TEMPLATE_HTML = 'index.html'
+TEMPLATE_IMG = 'img.png'
+TEMPLATE_CSS = 'styles.css'
+TEMPLATE_JS = 'script.js'
 
-# Блок с путями к готовым img страницам
-IMG_PATH = Path('assets/output/images')
-
-# Блок с путем к конечному файлу pdf
-PDF_PATH = Path('assets/output/pdf')
+# Блок с путем к конечным файлам - профайлингам pdf
+PDF_PATH = Path('output/profiles')
