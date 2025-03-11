@@ -14,4 +14,4 @@ TEMPLATE_JS = 'script.js'
 
 
 # Блок с путем к конечным файлам - профайлингам pdf
-PDF_PATH = Path('output/profiles')
+PDF_PATH = Path('output/final_documents')

@@ -5,16 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
   <title>Star Diagram</title>
+  <!-- Указываем шрифт через @font-face -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+    body, span, p {
+      font-family: Roboto, sans-serif !important;
+      }
+  </style>
 </head>
 <body>
   <div class="star">
-    <img src="img.png" alt="A star-shaped diagram representing personality traits">
-    <header class="header">
-      <div class="container">
-        <p class="header_font">{{name}} {{birthdate}}</p>
-      </div>
-    </header>
+    <img src="img.jpg" alt="A star-shaped diagram representing personality traits">
     <main class="main">
+      <p class="header_font">{{name}} {{birthdate}}</p>
       <span class="personality">{{personality}}</span>
       <span class="spirituality">{{spirituality}}</span>
       <span class="money">{{money}}</span>
@@ -26,14 +29,12 @@
       <span class="doom_err">{{doom_err}}</span>
       <span class="mat_female_line_err">{{mat_female_line_err}}</span>
       <span class="mission">{{mission}}</span>
-      <footer>
-        <span class="foot_personality">{{foot_personality}}</span>
-        <span class="foot_spirituality">{{foot_spirituality}}</span>
-        <span class="foot_money">{{foot_money}}</span>
-        <span class="foot_relationship">{{foot_relationship}}</span>
-        <span class="foot_health">{{foot_health}}</span>
-      </footer>
+      <span class="foot_personality">{{foot_personality}}</span>
+      <span class="foot_spirituality">{{foot_spirituality}}</span>
+      <span class="foot_money">{{foot_money}}</span>
+      <span class="foot_relationship">{{foot_relationship}}</span>
+      <span class="foot_health">{{foot_health}}</span>
     </main>
-  </div>
+  </di>
 </body>
 </html>
