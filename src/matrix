@@ -13,7 +13,7 @@ from src.clients_info import get_client_info
 from src.pages_from_arcanes import get_star_content, get_pifagor_content
 from src.pages_from_arcanes import get_money_content
 from src.pages_from_analitics import get_star_analitics
-from src.utils.create_pdf_pages import get_pdf_star
+from src.utils.fill_html_pages import get_html_star
 
 
 # Функция для настройки логгера
@@ -75,13 +75,15 @@ def main():
     logger.debug(f'{page_star_content}')
     logger.info("Завершение создания контента страницы star")
 
-    logger.info("Создание pdf страницы star...")
-    result = get_pdf_star(
+    logger.info("Заполнение и сохрание html страницы star...")
+    result = get_html_star(
         page_star_content=page_star_content,
         templates=TEMPLATES_PATH,
-        output=PDF_PATH
     )
-    logger.info("Завершение создания pdf страницы star")
+    if not result:
+        logger.error('Не удалось сформировать заполненную html страницу star')
+
+    logger.info("Завершение создания заполненной html страницы star")
 
     logger.info("Создание аналитика арканов со страницы star...")
     star_analytics = get_star_analitics(

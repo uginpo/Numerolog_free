@@ -12,5 +12,6 @@ TEMPLATE_IMG = 'img.png'
 TEMPLATE_CSS = 'styles.css'
 TEMPLATE_JS = 'script.js'
 
+
 # Блок с путем к конечным файлам - профайлингам pdf
 PDF_PATH = Path('output/profiles')
