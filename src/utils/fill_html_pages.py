@@ -1,6 +1,7 @@
 from typing import Dict
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
+import base64
 import pdfkit  # type: ignore
 from loguru import logger
 
@@ -8,7 +9,7 @@ import os
 
 from classes.arcanes_classes import Star, Pifagor, Money
 
-from config.settings import TEMPLATE_HTML, TEMPLATE_IMG, TEMPLATE_CSS
+from config.settings import TEMPLATE_HTML, TEMPLATE_IMG
 from config.settings import PDF_PATH
 
 
@@ -24,8 +25,7 @@ def get_html_star(page_star_content: Dict, templates: Path) -> bool:
         bool: успешность создания файла отчета
     """
     html = templates/'star'/TEMPLATE_HTML
-    # img = templates/'star'/TEMPLATE_IMG
-    # css = templates/'star'/TEMPLATE_CSS
+    img = templates/'star'/TEMPLATE_IMG
 
     page_html = templates/'star'/f'{page_star_content["name"]}_star.html'
     page_pdf = PDF_PATH/f'{page_star_content["name"]}_star.pdf'
@@ -33,6 +33,7 @@ def get_html_star(page_star_content: Dict, templates: Path) -> bool:
     temp_html = fill_html_with_data(
         my_html=html,
         output_html=page_html,
+        image=img,
         data=page_star_content
     )
 
@@ -43,6 +44,7 @@ def get_html_star(page_star_content: Dict, templates: Path) -> bool:
 
 def fill_html_with_data(my_html: Path,
                         output_html: Path,
+                        image: Path,
                         data: Dict
                         ) -> str:
     """Создает pdf документ с описанием арканов
@@ -55,6 +57,11 @@ def fill_html_with_data(my_html: Path,
     Returns:
         bool: _description_
     """
+    # Чтение и кодирование изображения в Base64
+    with open(image, "rb") as img_file:
+        image_data = base64.b64encode(img_file.read()).decode('utf-8')
+
+    data['image_base64'] = image_data  # Добавляем в данные для шаблона
     # Настройка Jinja2
     env = Environment(loader=FileSystemLoader('.'))
     template = env.get_template(str(my_html))
