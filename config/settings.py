@@ -7,10 +7,13 @@ ERROR_FILE = Path('logs/error.log')
 
 # Блок с путями к шаблонам страниц и именам шаблонов
 TEMPLATES_PATH = Path('assets/html_templates')
-TEMPLATE_HTML = 'index.html'
-TEMPLATE_IMG = 'img.jpg'
-TEMPLATE_CSS = 'styles.css'
-TEMPLATE_JS = 'script.js'
+
+STAR_IMG = 'img.jpg'
+
+STAR_HTML = 'index.html'
+STAR_PERSONALITY = 'personality.html'
+STAR_SPIRITUALITY = 'spirituality.html'
+STAR_MONEY = 'money.html'
 
 
 # Блок с путем к конечным файлам - профайлингам pdf

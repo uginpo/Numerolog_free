@@ -9,26 +9,36 @@ import os
 
 from classes.arcanes_classes import Star, Pifagor, Money
 
-from config.settings import TEMPLATE_HTML, TEMPLATE_IMG
+from config.settings import STAR_HTML, STAR_PERSONALITY
+from config.settings import STAR_IMG
 from config.settings import PDF_PATH
 
 
-def get_html_star(page_star_content: Dict, templates: Path) -> bool:
+def get_page_star(page_star_content: Dict, templates: Path, name: str = 'star') -> bool:
     """_summary_
 
     Args:
         page_star_content (Dict): Арканы звезды для печати
         templates (Path): путь к шаблонам страницы
-        output (Path): путь к файлу отчета (профайлингу)
+        name (str): имя страницы
 
     Returns:
         bool: успешность создания файла отчета
     """
-    html = templates/'star'/TEMPLATE_HTML
-    img = templates/'star'/TEMPLATE_IMG
+    match name:
+        case 'star':
+            html = templates/'star'/STAR_HTML
+            img = templates/'star'/STAR_IMG
+            page_html = templates/'star' / \
+                f'{page_star_content["name"]}_star.html'
+            page_pdf = PDF_PATH/f'{page_star_content["name"]}_star.pdf'
 
-    page_html = templates/'star'/f'{page_star_content["name"]}_star.html'
-    page_pdf = PDF_PATH/f'{page_star_content["name"]}_star.pdf'
+        case 'personality':
+            html = templates/'star_analytics'/STAR_PERSONALITY
+            img = templates/'star_analytics'/STAR_IMG
+            page_html = templates/'star_analytics' / \
+                f'_personality.html'
+            page_pdf = PDF_PATH/f'_personality.pdf'
 
     temp_html = fill_html_with_data(
         my_html=html,

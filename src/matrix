@@ -7,13 +7,12 @@ from typing import Dict
 from config.settings import INFO_FILE, DEBUG_FILE, ERROR_FILE
 from config.settings import TEMPLATES_PATH, PDF_PATH
 from classes.arcanes_classes import Client, Star, Pifagor, Money
-from text_storage.DB_star_dict import star_dict
 
 from src.clients_info import get_client_info
 from src.pages_from_arcanes import get_star_content, get_pifagor_content
 from src.pages_from_arcanes import get_money_content
 from src.pages_from_analitics import get_star_analitics
-from src.utils.fill_html_pages import get_html_star
+from src.utils.fill_html_pages import get_page_star
 
 
 # Функция для настройки логгера
@@ -67,51 +66,50 @@ def main():
     # Создание контекста для шаблонов страниц
     logger.info("Создание контента страниц...")
 
+    # Создание страницы star
     logger.info("Создание контента страницы star")
     client_star = Star(client_info)
     logger.debug(f'{client_star}')
 
     page_star_content = get_star_content(star=client_star)
     logger.debug(f'{page_star_content}')
-    logger.info("Завершение создания контента страницы star")
 
-    logger.info("Заполнение и сохрание html страницы star...")
-    result = get_html_star(
+    result = get_page_star(
         page_star_content=page_star_content,
         templates=TEMPLATES_PATH,
     )
     if not result:
         logger.error('Не удалось сформировать заполненную html страницу star')
 
-    logger.info("Завершение создания заполненной html страницы star")
+    logger.info("Завершение создания страницы star")
+    # Завершение создания страницы star
 
     logger.info("Создание аналитика арканов со страницы star...")
-    star_analytics = get_star_analitics(
-        star=client_star,
-        star_dict=star_dict
-    )
-    logger.debug(f'{star_analytics}')
-    logger.info("Завершение аналитики арканов со страницы star")
+    result = get_star_analitics(star=client_star)
+    if result:
+        logger.info("Завершение аналитики арканов со страницы star")
+    else:
+        logger.error('Файл с отчетом не создан')
 
-    logger.info("Создание контента страницы pifagor")
-    client_pifagor = Pifagor(client_star)
-    logger.debug(f'{client_pifagor}')
+    # logger.info("Создание контента страницы pifagor")
+    # client_pifagor = Pifagor(client_star)
+    # logger.debug(f'{client_pifagor}')
 
-    page_pifagor_content = get_pifagor_content(pifagor=client_pifagor)
-    logger.debug(f'{page_pifagor_content}')
-    logger.info("Завершение создания контента страницы pifagor")
+    # page_pifagor_content = get_pifagor_content(pifagor=client_pifagor)
+    # logger.debug(f'{page_pifagor_content}')
+    # logger.info("Завершение создания контента страницы pifagor")
 
-    logger.info("Создание контента страницы money")
-    client_money = Money(client_star)
-    logger.debug(f'{client_money}')
+    # logger.info("Создание контента страницы money")
+    # client_money = Money(client_star)
+    # logger.debug(f'{client_money}')
 
-    page_money_content = get_money_content(money=client_money)
-    logger.debug(f'{page_money_content}')
-    logger.info("Завершение создания контента страницы money")
+    # page_money_content = get_money_content(money=client_money)
+    # logger.debug(f'{page_money_content}')
+    # logger.info("Завершение создания контента страницы money")
 
-    logger.info("Завершение создания контента страниц")
+    # logger.info("Завершение создания контента страниц")
     # Завершение работы программы
-    logger.info("Программа успешно завершила работу.")
+    # logger.info("Программа успешно завершила работу.")
 #
 
 
