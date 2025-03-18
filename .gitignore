@@ -8,8 +8,9 @@ config/my_keys.py
 path.txt
 config/__pycache__/my_keys.cpython-313.pyc
 src/utils/numerolog.py
-logs/
+logs/*.log
 generator_stucture.py
 project_structure.txt
 assets/image_templates/
 output/
+Numerolog_free.code-workspace
