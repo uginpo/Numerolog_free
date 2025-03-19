@@ -1,35 +1,42 @@
-from datetime import date
 from dataclasses import dataclass
+from datetime import date
+from enum import Enum
+from utils.math_utils import digital_root, sum_digits
+from loguru import logger
 
-# Данные клиента при вводе (имя и ДР)
 
-
+# Данные клиента при вводе (имя и дата рождения)
 @dataclass
 class Client:
     name: str
     birthday: date
 
+    def __post_init__(self):
+        if not isinstance(self.birthday, date):
+            raise ValueError("Поле birthday должно быть типа datetime.date")
+        if self.birthday > date.today():
+            raise ValueError("Дата рождения не может быть больше текущей даты")
 
+
+# Класс для расчета данных звезды
 class Star:
-    """Класс Star вычисляет и хранит данные для заполнения страницы Звезда
-    """
 
     def __init__(self, client_info: Client) -> None:
         # birthday=datetime.date(1982, 7, 23)
         self.client_info: Client = client_info
 
         # Рассчет переменных блока Звезды
-        self.personality: int = self.digital_root(client_info.birthday.day)
-        self.spirituality: int = self.digital_root(client_info.birthday.month)
-        self.money: int = self.digital_root(client_info.birthday.year)
+        self.personality: int = digital_root(client_info.birthday.day)
+        self.spirituality: int = digital_root(client_info.birthday.month)
+        self.money: int = digital_root(client_info.birthday.year)
 
-        self.relationship: int = self.digital_root(
+        self.relationship: int = digital_root(
             self.personality +
             self.spirituality +
             self.money
         )
 
-        self.health: int = self.digital_root(
+        self.health: int = digital_root(
             self.personality +
             self.spirituality +
             self.money +
@@ -37,7 +44,7 @@ class Star:
         )
 
         # Рассчет переменной миссия
-        self.mission: int = self.digital_root(
+        self.mission: int = digital_root(
             self.personality +
             self.spirituality +
             self.money +
@@ -47,49 +54,34 @@ class Star:
 
         # Рассчет переменных блока ошибок
         # Ошибка отца по мужской линии
-        self.pat_male_line_err: int = self.digital_root(
+        self.pat_male_line_err: int = digital_root(
             self.personality +
             self.spirituality
         )
 
         # Ошибка мамы по мужской линии
-        self.mat_male_line_err: int = self.digital_root(
+        self.mat_male_line_err: int = digital_root(
             self.spirituality +
             self.money
         )
 
         # Ошибка отца по женской линии
-        self.pat_female_line_err: int = self.digital_root(
+        self.pat_female_line_err: int = digital_root(
             self.money +
             self.relationship
         )
 
         # Роковая ошибка
-        self.doom_err: int = self.digital_root(
+        self.doom_err: int = digital_root(
             self.relationship +
             self.health
         )
 
         # Ошибка мамы по женской линии
-        self.mat_female_line_err: int = self.digital_root(
+        self.mat_female_line_err: int = digital_root(
             self.health +
             self.personality
         )
-
-    @staticmethod
-    def digital_root(num):
-        """Рассчитывает одно число из суммы цифр числа num
-        Args:
-            num (int): number
-        Returns:
-            int: one number
-        """
-        string = str(num)
-
-        while len(string) > 1:
-            string = str(sum([int(item) for item in string]))
-
-        return int(string)
 
     def __repr__(self):
         return (
@@ -110,10 +102,16 @@ class Star:
             f"  Ошибка мамы (жен. линия): {self.mat_female_line_err}\n"
         )
 
+# Класс для расчета матрицы Пифагора
+
 
 class Pifagor:
-    """Класс Pifagor вычисляет и хранит данные для заполнения страницы Звезда
-    """
+    class PifagorNumbers(Enum):
+        PIF1 = "Сумма цифр даты рождения"
+        PIF2 = "ДР к одному числу"
+        PIF3 = "Уточнение предыдущего"
+        PIF4 = "Предыдущее к одному числу"
+        PIF5 = "Резервное число для ДР>=2000"
 
     def __init__(self, star: Star) -> None:
         self._DAY = star.client_info.birthday.day
@@ -123,12 +121,12 @@ class Pifagor:
 
         # Блок рассчета дополнительных чисел
         # Сумма всех цифр даты рождения
-        self.pif1: int = self.sum_digits(
-            int(star.client_info.birthday.strftime('%d%m%Y'))
-        )
+        birthday_str = star.client_info.birthday.strftime('%d%m%Y')
+        self.pif1: int = sum_digits(int(birthday_str))
+
         # Сводим pif1 к однозначному числу (корню), если это
         # значение не 11, 22, 33, 44
-        self.pif2: int = star.digital_root(
+        self.pif2: int = digital_root(
             self.pif1) if self.pif1 not in (11, 22, 33, 44) else self.pif1
 
         # Из первого числа отнимаем 2*первое не нулевое число
@@ -137,37 +135,27 @@ class Pifagor:
             int(str(self._DAY)[0]) if self.before_2000() else 19
 
         # Сводим pif3 к одному числу. Если ДР>=2000 pif1 + pif3
-        self.pif4: int = star.digital_root(
+        self.pif4: int = digital_root(
             self.pif3) if self.before_2000() else self.pif1 + self.pif3
 
         # не равно 0, только если ДР>=2000
-        self.pif5: int = 0 if self.before_2000() else star.digital_root(self.pif4)
+        self.pif5: int = 0 if self.before_2000() else digital_root(self.pif4)
 
+        # Общая строка даты рождения + дополнительных чисел
+        all_numbers = f'{birthday_str}{self.pif1}{self.pif2}{self.pif3}{self.pif4}{self.pif5}'
         # Блок данных для матрицы Пифагора
-        string = f'{self._DAY}{self._MONTH}{self._YEAR}{self.pif1}{self.pif2}{self.pif3}{self.pif4}{self.pif5}'
-        self.number1: str = self.get_string(string=string, s='1')
-        self.number2: str = self.get_string(string=string, s='2')
-        self.number3: str = self.get_string(string=string, s='3')
-        self.number4: str = self.get_string(string=string, s='4')
-        self.number5: str = self.get_string(string=string, s='5')
-        self.number6: str = self.get_string(string=string, s='6')
-        self.number7: str = self.get_string(string=string, s='7')
-        self.number8: str = self.get_string(string=string, s='8')
-        self.number9: str = self.get_string(string=string, s='9')
+        self.number1: str = '1' * all_numbers.count('1')
+        self.number2: str = '2' * all_numbers.count('2')
+        self.number3: str = '3' * all_numbers.count('3')
+        self.number4: str = '4' * all_numbers.count('4')
+        self.number5: str = '5' * all_numbers.count('5')
+        self.number6: str = '6' * all_numbers.count('6')
+        self.number7: str = '7' * all_numbers.count('7')
+        self.number8: str = '8' * all_numbers.count('8')
+        self.number9: str = '9' * all_numbers.count('9')
 
     def before_2000(self) -> bool:
         return self._YEAR < 2000
-
-    @staticmethod
-    def get_string(string: str, s: str) -> str:
-        """Возвращает подстроку string из символов s
-        """
-        return s * string.count(s)
-
-    @staticmethod
-    def sum_digits(n: int) -> int:
-        """Суммирует цифры числа"""
-        return sum(int(d) for d in str(n))
 
     def __repr__(self):
         return (
@@ -211,19 +199,19 @@ class Money:
 
         # Рассчет переменных перевернутого треугольника
         # Вершина перевернутого треугольника
-        self.main_vtx: int = star.digital_root(
+        self.main_vtx: int = digital_root(
             self.mat_male_line_err +
             self.pat_female_line_err
         )
 
         # Материнский род (слева)
-        self.mat_vtx: int = star.digital_root(
+        self.mat_vtx: int = digital_root(
             self.mat_male_line_err +
             self.money
         )
 
         # Отцовский род (справа)
-        self.pat_vtx: int = star.digital_root(
+        self.pat_vtx: int = digital_root(
             self.pat_female_line_err +
             self.money
         )

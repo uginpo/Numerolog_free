@@ -118,12 +118,3 @@ def enter_data() -> tuple:
         return result
     else:
         raise ValueError('Не введены данные клиента')
-
-
-# Пример использования
-if __name__ == "__main__":
-    try:
-        name, date_obj = enter_data()
-        print(f"Имя: {name}, Дата: {date_obj}")
-    except ValueError as e:
-        print(f"Ошибка: {e}")

@@ -1,5 +1,5 @@
 from typing import Dict
-from classes.arcanes_classes import Star, Pifagor, Money
+from business_logic.arcanes_classes import Star, Pifagor, Money
 
 
 def get_star_content(star: Star) -> Dict:

@@ -7,7 +7,7 @@ from loguru import logger
 
 import os
 
-from classes.arcanes_classes import Star, Pifagor, Money
+from business_logic.arcanes_classes import Star, Pifagor, Money
 
 from config.settings import STAR_HTML, STAR_PERSONALITY
 from config.settings import STAR_IMG

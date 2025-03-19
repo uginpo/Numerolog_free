@@ -2,47 +2,15 @@
 from loguru import logger
 from pathlib import Path
 import os
-from typing import Dict
 
-from config.settings import INFO_FILE, DEBUG_FILE, ERROR_FILE
 from config.settings import TEMPLATES_PATH, PDF_PATH
 
-from classes.arcanes_classes import Client, Star
+from business_logic.arcanes_classes import Client, Star
 
-from src.clients_info import get_client_info
-from src.pages_from_arcanes import get_star_content
-from src.pages_from_analytics import get_star_analitics
-from src.utils.fill_html_pages import get_page_star
-
-
-# Функция для настройки логгера
-def configure_logger():
-    """
-    Настройка логгера с использованием трех уровней: INFO, DEBUG, ERROR.
-    Логи сохраняются в файлы с автоматическим разбиением по размеру (10 MB).
-    """
-    logger.remove()  # Удаляем все предыдущие конфигурации логгера
-    logger.add(
-        INFO_FILE,
-        format="{time:DD-MM-YYYY at HH:mm:ss} | {level} | {message}",
-        level="INFO",
-        filter=lambda record: record["level"].name == "INFO",
-        rotation="10 MB",
-    )
-    logger.add(
-        DEBUG_FILE,
-        format="{time:DD-MM-YYYY at HH:mm:ss} | {level} | {message}",
-        level="DEBUG",
-        filter=lambda record: record["level"].name == "DEBUG",
-        rotation="10 MB",
-    )
-    logger.add(
-        ERROR_FILE,
-        format="{time:DD-MM-YYYY at HH:mm:ss} | {level} | {message}",
-        level="ERROR",
-        filter=lambda record: record["level"].name == "ERROR",
-        rotation="10 MB",
-    )
+from input_module.clients_info import get_client_info
+from data_requests.data_for_images import get_star_content
+from data_requests.data_for_text import get_star_analytic
+from utils.fill_html_pages import get_page_star
 
 
 # Основная функция программы
@@ -50,16 +18,16 @@ def configure_logger():
 def main():
     """
     Главная функция программы. Выполняет следующие шаги:
-    1. Настройка логгера.
-    3. Получение данных клиента.
-    4. Создание арканов для шаблонов.
-    5. Генерация профайлингов звезды.
-    6. Создание отчета в виде pdf файла.
+    1. Получение данных клиента.
+    2. Создание арканов для звезды по данным клиента.
+    3. Подготовка данных для создания страницы звезда.
+    4. Подготовка данных для создания страниц аналитики звезды.
+    5. Создание отчета в виде pdf файла.
     """
     # Настройка логгера
-    configure_logger()
+    # configure_logger()
 
-    # Получение данных клиента
+    # 1. Получение данных клиента
     logger.info("Получение данных клиента...")
     client_info = get_client_info()
     logger.debug(f'Имя и ДР клиента {client_info}')
@@ -67,30 +35,30 @@ def main():
     # Создание контекста для шаблонов страниц
     logger.info("Создание контента страниц...")
 
-    # Создание страницы star
+    # 2. Создание арканов для звезды (star) по данным клиента.
     logger.info("Создание контента страницы star")
     client_star = Star(client_info)
     logger.debug(f'{client_star}')
 
+    # 3. Подготовка данных для создания страницы звезда.
     page_star_content = get_star_content(star=client_star)
     logger.debug(f'{page_star_content}')
 
-    result = get_page_star(
-        page_star_content=page_star_content,
-        templates=TEMPLATES_PATH,
-    )
-    if not result:
-        logger.error('Не удалось сформировать заполненную html страницу star')
+    # 4. Подготовка данных для создания страниц аналитики звезды.
+    logger.info("Создание аналитики звезды...")
+    page_star_analytic = get_star_analytic(star=client_star)
+    logger.debug(f'{page_star_analytic}')
+
+    # 5. Создание отчета в виде pdf файла.
+    # result = get_page_star(
+    #    page_star_content=page_star_content,
+    #    templates=TEMPLATES_PATH,
+    # )
+    # if not result:
+    #    logger.error('Не удалось сформировать заполненную html страницу star')
 
     logger.info("Завершение создания страницы star")
     # Завершение создания страницы star
-
-    logger.info("Создание аналитика арканов со страницы star...")
-    result = get_star_analitics(star=client_star)
-    if result:
-        logger.info("Завершение аналитики арканов со страницы star")
-    else:
-        logger.error('Файл с отчетом не создан')
 
     # Завершение работы программы
     logger.info("Программа успешно завершила работу.")
@@ -98,4 +66,6 @@ def main():
 
 # Точка входа в программу
 if __name__ == "__main__":
+    from utils.log_utils import configure_logger
+    configure_logger()
     main()

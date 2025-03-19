@@ -1,6 +1,5 @@
-from datetime import datetime, date
-from src.gui.gui_main import enter_data
-from classes.arcanes_classes import Client
+from input_module.client_input import enter_data
+from business_logic.arcanes_classes import Client
 
 
 def get_client_info() -> Client:
