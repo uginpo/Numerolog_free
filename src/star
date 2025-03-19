@@ -10,7 +10,7 @@ from business_logic.arcanes_classes import Client, Star
 from input_module.clients_info import get_client_info
 from data_requests.data_for_images import get_star_content
 from data_requests.data_for_text import get_star_analytic
-from utils.fill_html_pages import get_page_star
+from reports.pdf_creator import create_star_report
 
 
 # Основная функция программы
@@ -48,14 +48,16 @@ def main():
     logger.info("Создание аналитики звезды...")
     page_star_analytic = get_star_analytic(star=client_star)
     logger.debug(f'{page_star_analytic}')
+    logger.info("Аналитика звезды создана")
 
     # 5. Создание отчета в виде pdf файла.
-    # result = get_page_star(
-    #    page_star_content=page_star_content,
-    #    templates=TEMPLATES_PATH,
-    # )
-    # if not result:
-    #    logger.error('Не удалось сформировать заполненную html страницу star')
+    result = create_star_report(
+        page_content=page_star_content,
+        analytic_content=page_star_analytic
+    )
+
+    if not result:
+        logger.error('Не удалось сформировать заполненную html страницу star')
 
     logger.info("Завершение создания страницы star")
     # Завершение создания страницы star

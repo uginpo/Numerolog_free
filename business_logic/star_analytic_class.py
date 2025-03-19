@@ -11,6 +11,6 @@ class Star_analytic_dict(NamedTuple):
     Args:
         NamedTuple (Dict): словари соответствующих арканов
     """
-    star_dict: Dict = personality_dict
+    personality_dict: Dict = personality_dict
     spirituality_dict: Dict = spirituality_dict
     money_dict: Dict = money_dict
