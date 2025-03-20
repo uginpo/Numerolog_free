@@ -3,7 +3,7 @@ from loguru import logger
 from pathlib import Path
 import os
 
-from config.settings import TEMPLATES_PATH, PDF_PATH
+from config.templates_path import TEMPLATES_PATH, PDF_PATH
 
 from business_logic.arcanes_classes import Client, Star
 
@@ -55,7 +55,7 @@ def main():
         page_content=page_star_content,
         analytic_content=page_star_analytic
     )
-
+    loger.debug(f'Содержимое страницы Звезда{result}')
     if not result:
         logger.error('Не удалось сформировать заполненную html страницу star')
 

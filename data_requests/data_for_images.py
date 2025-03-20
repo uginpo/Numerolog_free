@@ -17,8 +17,7 @@ def get_star_content(star: Star) -> Dict:
     formatted_birthdate = star.client_info.birthday.strftime("%d.%m.%Y")
 
     return {
-        "name": star.client_info.name,
-        "birthdate": formatted_birthdate,
+        "header_text": f'{star.client_info.name} {formatted_birthdate}',
         "personality": str(star.personality),
         "spirituality": str(star.spirituality),
         "money": str(star.money),

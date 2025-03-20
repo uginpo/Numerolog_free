@@ -11,6 +11,5 @@ src/utils/numerolog.py
 logs/*.log
 generator_stucture.py
 project_structure.txt
-assets/image_templates/
 output/
 Numerolog_free.code-workspace

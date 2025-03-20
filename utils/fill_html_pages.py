@@ -9,9 +9,9 @@ import os
 
 from business_logic.arcanes_classes import Star, Pifagor, Money
 
-from config.settings import STAR_HTML, STAR_PERSONALITY
-from config.settings import STAR_IMG
-from config.settings import PDF_PATH
+from config.templates_path import STAR_HTML, STAR_PERSONALITY
+from config.templates_path import STAR_IMG
+from config.templates_path import PDF_PATH
 
 
 def get_page_star(page_star_content: Dict, templates: Path, name: str = 'star') -> bool:

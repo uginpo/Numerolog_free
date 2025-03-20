@@ -5,16 +5,9 @@ DEBUG_FILE = Path('logs/debug.log')
 ERROR_FILE = Path('logs/error.log')
 
 
-# Блок с путями к шаблонам страниц и именам шаблонов
-TEMPLATES_PATH = Path('assets/html_templates')
-
-STAR_IMG = 'img.jpg'
-
-STAR_HTML = 'index.html'
-STAR_PERSONALITY = 'personality.html'
-STAR_SPIRITUALITY = 'spirituality.html'
-STAR_MONEY = 'money.html'
-
-
-# Блок с путем к конечным файлам - профайлингам pdf
-PDF_PATH = Path('output/final_documents')
+"""
+    Размеры страницы A4:
+В миллиметрах: 210 мм × 297 мм .
+В пикселях (если указано): 2380 × 3368 пикселей .
+    """
+SCALE_PX_MM: float = 0.0882
