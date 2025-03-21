@@ -4,9 +4,6 @@ from business_logic.arcanes_classes import Star, Pifagor, Money
 from business_logic.star_analytic_class import Star_analytic_dict
 
 
-from utils.fill_html_pages import get_page_star
-
-
 def get_star_analytic(star: Star) -> List:
     """Создает структуру для заполнения страницы с аналитикой по странице star
     Args:

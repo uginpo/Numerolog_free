@@ -1,29 +1,34 @@
 from fpdf import FPDF
 from dataclasses import dataclass
-from typing import List, Dict, Tuple, Union
+from typing import List, Dict, Tuple, Union, Literal
+from pathlib import Path
+
+from report_storage.report_classes import ImagePageData, TextPageData
 
 
 # Класс PDF
 class CustomPDF(FPDF):
-    def __init__(self, start_page_for_header_footer=0):
-        super().__init__()
+    def __init__(self, orientation="P", unit="mm", format="A4", start_page_for_header_footer=0):
+        # Вызываем конструктор родительского класса с указанными параметрами
+        super().__init__(orientation=orientation, unit=unit, format=format)
+
         self.start_page_for_header_footer = start_page_for_header_footer
 
         # добавление пользовательских шрифтов
-        pdf.add_font('roboto_bold', '',
-                     'report_storage/fonts/Roboto Mono Bold for Powerline.ttf', uni=True)
-        pdf.add_font('roboto_medium', '',
-                     'report_storage/fonts/Roboto Mono Medium for Powerline.ttf', uni=True)
-        pdf.add_font('roboto_regular', '',
-                     'report_storage/fonts/Roboto Mono for Powerline.ttf', uni=True)
-        pdf.add_font('roboto_light', '',
-                     'report_storage/fonts/Roboto Mono Light for Powerline.ttf', uni=True)
+        self.add_font('roboto_bold', '',
+                      'report_storage/fonts/Roboto Mono Bold for Powerline.ttf', uni=True)
+        self.add_font('roboto_medium', '',
+                      'report_storage/fonts/Roboto Mono Medium for Powerline.ttf', uni=True)
+        self.add_font('roboto_regular', '',
+                      'report_storage/fonts/Roboto Mono for Powerline.ttf', uni=True)
+        self.add_font('roboto_light', '',
+                      'report_storage/fonts/Roboto Mono Light for Powerline.ttf', uni=True)
 
     def header(self):
         if self.start_page_for_header_footer == 0:
             return
         if self.page_no() >= self.start_page_for_header_footer:
-            self.set_font("DejaVu", "", 12)
+            self.set_font("roboto_regular", "", 12)
             self.cell(0, 10, "Название компании или проекта", 0, 1, "C")
             self.ln(10)
 
@@ -32,17 +37,17 @@ class CustomPDF(FPDF):
             return
         if self.page_no() >= self.start_page_for_header_footer:
             self.set_y(-15)
-            self.set_font("DejaVu", "", 10)
+            self.set_font("roboto_regular", "", 10)
             self.cell(
                 0, 10, f"Страница {self.page_no() - self.start_page_for_header_footer + 1}", 0, 0, "C")
 
     def create_title_page(self, title: str, author_info: Dict[str, str]):
         self.add_page()
-        self.set_font("DejaVu", "B", 24)
+        self.set_font("roboto_regular", "", 24)
         self.cell(0, 20, title, 0, 1, "C")
         self.ln(20)
 
-        self.set_font("DejaVu", "", 16)
+        self.set_font("roboto_regular", "", 16)
         for key, value in author_info.items():
             self.cell(0, 10, f"{key}: {value}", 0, 1, "C")
         self.ln(20)
@@ -55,13 +60,13 @@ class CustomPDF(FPDF):
             # Если font указан, используем его; иначе используем стандартный шрифт
             if text_element.font:
                 self.set_font(
-                    text_element.font["name"],
-                    str(text_element.font.get("style", "")),
+                    str(text_element.font["name"]),
+                    text_element.font.get("style", ''),  # type: ignore
                     int(text_element.font["size"])
                 )
             else:
                 # Установка стандартного шрифта
-                self.set_font("DejaVu", "", 12)
+                self.set_font("roboto_regular", "", 12)
 
             # Если color указан, используем его; иначе используем черный цвет по умолчанию
             if text_element.color:
@@ -74,7 +79,16 @@ class CustomPDF(FPDF):
             if text_element.position and text_element.text:
                 x, y = text_element.position
                 self.set_xy(x, y)
-                self.cell(0, 10, text_element.text)
+                # Рассчитываем ширину текста
+                text_width = self.get_string_width(text_element.text)
+
+            # Выводим текст с динамической шириной ячейки и левым выравниванием
+                self.cell(
+                    w=text_width,  # Ширина ячейки равна ширине текста
+                    h=self.font_size,  # Высота строки равна размеру шрифта
+                    txt=text_element.text,  # type: ignore
+                    align="L"  # Всегда левое выравнивание
+                )
 
     def create_text_pages(self, page_data: TextPageData):
         for section in page_data.sections:
@@ -82,15 +96,16 @@ class CustomPDF(FPDF):
 
             # Название раздела
             title_font = section.title_font
-            self.set_font(title_font["name"], str(
-                title_font.get("style", "")), int(title_font["size"]))
+            self.set_font(str(title_font["name"]),
+                          title_font.get("style", ""),  # type: ignore
+                          int(title_font["size"]))
             self.cell(0, 10, section.title, 0, 1, "L")
             self.ln(10)
 
             for subsection in section.subsections:
                 # Название подраздела
                 subtitle_font = subsection.get(
-                    "title_font", {"name": "DejaVu", "style": "B", "size": 14})
+                    "title_font", {"name": "roboto_regular", "style": "B", "size": 14})
                 self.set_font(subtitle_font["name"], str(
                     subtitle_font.get("style", "")), int(subtitle_font["size"]))
                 self.cell(0, 10, f"- {subsection['title']}", 0, 1, "L")
@@ -98,53 +113,12 @@ class CustomPDF(FPDF):
 
                 # Информация
                 info_font = subsection.get(
-                    "info_font", {"name": "DejaVu", "style": "", "size": 12})
+                    "info_font", {"name": "roboto_regular", "style": "", "size": 12})
                 self.set_font(info_font["name"], str(
                     info_font.get("style", "")), int(info_font["size"]))
                 self.multi_cell(0, 10, subsection["info"], align="L")
                 self.ln(10)
 
-
-def generate_pdf(
-    output_path: str,
-    title: str,
-    author_info: Dict[str, str],
-    image_page_data: ImagePageData,
-    text_page_data: TextPageData = None,
-    include_title_page: bool = True,
-    start_page_for_header_footer: int = 0,
-):
-    pdf = CustomPDF(start_page_for_header_footer=start_page_for_header_footer)
-    pdf.add_font("DejaVu", "", "DejaVuSansCondensed.ttf", uni=True)
-
-    # Создание титульной страницы
-    if include_title_page:
-        pdf.create_title_page(title, author_info)
-
-    # Создание страницы с изображением
-    pdf.create_image_page(image_page_data)
-
-    # Создание страниц с текстом
-    if text_page_data:
-        pdf.create_text_pages(text_page_data)
-
-    # Сохранение PDF-файла
-    pdf.output(output_path)
-
-
-# Пример использования
-if __name__ == "__main__":
-
-    # Генерация PDF
-    generate_pdf(
-        output_path,
-        title,
-        author_info,
-        image_page_data,
-        text_page_data=None,
-        include_title_page=True,
-        start_page_for_header_footer=3,
-    )
 
 """    # Данные для создания PDF
     output_path = "example.pdf"

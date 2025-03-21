@@ -13,15 +13,15 @@ def get_star_fonts_colors() -> Dict:
 
     scale = SCALE_PX_MM
     # Шрифт Ошибок
-    size_1 = 100 * scale
+    size_1 = 220 * scale
     # Шрифт header
-    size_2 = 120 * scale
+    size_2 = 240 * scale
     # Шрифт основных арканов
-    size_3 = 140 * scale
+    size_3 = 280 * scale
     # Шрифт миссии
-    size_4 = 160 * scale
+    size_4 = 300 * scale
     # Шрифт footer
-    size_5 = 180 * scale
+    size_5 = 320 * scale
 
     # Цвет header, footer
     color1 = hex_to_rgb('#E3DDD0')
@@ -56,7 +56,7 @@ def get_star_fonts_colors() -> Dict:
         "mat_female_line_err": {'font': {'name': 'roboto_medium', 'style': '', 'size': size_1},
                                 'color': color3},
         "mission": {'font': {'name': 'roboto_regular', 'style': '', 'size': size_4},
-                    'color': color1},
+                    'color': color4},
         "foot_personality": {'font': {'name': 'roboto_regular', 'style': '', 'size': size_5},
                              'color': color1},
         "foot_spirituality": {'font': {'name': 'roboto_regular', 'style': '', 'size': size_5},

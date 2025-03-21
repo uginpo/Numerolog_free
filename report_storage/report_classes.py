@@ -1,6 +1,7 @@
 from fpdf import FPDF
 from dataclasses import dataclass
 from typing import List, Dict, Tuple, Union, Literal, Any
+from pathlib import Path
 
 from utils.color_utils import hex_to_rgb
 
@@ -11,7 +12,8 @@ class TextElement:
     """Описывает один текстовый элемент"""
     position: Tuple[float, float] | None = None  # Координаты (x, y)
     text: str | None = None  # Текст
-    font: Dict[str, Union[Any, int]] | None = None  # Параметры шрифта
+    font: Dict[str, Union[Literal["", "B", "I", "U", "BU", "UB", "BI", "IB", "IU", "UI",
+                                  "BIU", "BUI", "IBU", "IUB", "UBI", "UIB"], int]] | None = None  # Параметры шрифта
     color: Tuple[int, int, int] | None = None  # Цвет текста (RGB)
 
 
