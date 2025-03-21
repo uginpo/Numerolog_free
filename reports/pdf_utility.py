@@ -51,27 +51,30 @@ class CustomPDF(FPDF):
         self.add_page()
         self.image(page_data.image_path, x=0, y=0, w=self.w)
 
-        for group in page_data.info_positions:
-            group_font = group.group_font
-            group_color = group.group_color
+        for text_element in page_data.info_positions:
+            # Если font указан, используем его; иначе используем стандартный шрифт
+            if text_element.font:
+                self.set_font(
+                    text_element.font["name"],
+                    str(text_element.font.get("style", "")),
+                    int(text_element.font["size"])
+                )
+            else:
+                # Установка стандартного шрифта
+                self.set_font("DejaVu", "", 12)
 
-            self.set_text_color(*group_color)
-            self.set_font(group_font["name"], str(
-                group_font.get("style", "")), int(group_font["size"]))
+            # Если color указан, используем его; иначе используем черный цвет по умолчанию
+            if text_element.color:
+                self.set_text_color(*text_element.color)
+            else:
+                # Установка стандартного черного цвета
+                self.set_text_color(0, 0, 0)
 
-            for text_element in group.texts:
-                if text_element.font:
-                    self.set_font(
-                        text_element.font["name"],
-                        str(text_element.font.get("style", "")),
-                        int(text_element.font["size"])
-                    )
-                if text_element.color != group_color:
-                    self.set_text_color(*text_element.color)
-
+            # Проверяем, что position и text не являются None
+            if text_element.position and text_element.text:
                 x, y = text_element.position
                 self.set_xy(x, y)
-                self.cell(0, 10, text_element.text) font_height = pdf.font_size
+                self.cell(0, 10, text_element.text)
 
     def create_text_pages(self, page_data: TextPageData):
         for section in page_data.sections:
@@ -107,7 +110,7 @@ def generate_pdf(
     title: str,
     author_info: Dict[str, str],
     image_page_data: ImagePageData,
-    text_page_data: TextPageData,
+    text_page_data: TextPageData = None,
     include_title_page: bool = True,
     start_page_for_header_footer: int = 0,
 ):
@@ -122,7 +125,8 @@ def generate_pdf(
     pdf.create_image_page(image_page_data)
 
     # Создание страниц с текстом
-    pdf.create_text_pages(text_page_data)
+    if text_page_data:
+        pdf.create_text_pages(text_page_data)
 
     # Сохранение PDF-файла
     pdf.output(output_path)
@@ -137,7 +141,7 @@ if __name__ == "__main__":
         title,
         author_info,
         image_page_data,
-        text_page_data,
+        text_page_data=None,
         include_title_page=True,
         start_page_for_header_footer=3,
     )

@@ -3,6 +3,7 @@ from loguru import logger
 from pathlib import Path
 import os
 
+from config import globals
 from config.templates_path import TEMPLATES_PATH, PDF_PATH
 
 from business_logic.arcanes_classes import Client, Star
@@ -10,6 +11,7 @@ from business_logic.arcanes_classes import Client, Star
 from input_module.clients_info import get_client_info
 from data_requests.data_for_images import get_star_content
 from data_requests.data_for_text import get_star_analytic
+from data_requests.data_combiner import combine_all_data
 from reports.pdf_creator import create_star_report
 
 
@@ -22,7 +24,9 @@ def main():
     2. Создание арканов для звезды по данным клиента.
     3. Подготовка данных для создания страницы звезда.
     4. Подготовка данных для создания страниц аналитики звезды.
-    5. Создание отчета в виде pdf файла.
+    5. Объединение данных для создания страниц с настройками 
+       (шрифтами, координатами).
+    6. Создание отчета в виде pdf файла.
     """
     # Настройка логгера
     # configure_logger()
@@ -30,6 +34,7 @@ def main():
     # 1. Получение данных клиента
     logger.info("Получение данных клиента...")
     client_info = get_client_info()
+    globals.CLIENT_ID = f'{client_info.name} {star.client_info.birthday.strftime("%d.%m.%Y")}'
     logger.debug(f'Имя и ДР клиента {client_info}')
 
     # Создание контекста для шаблонов страниц
@@ -50,15 +55,14 @@ def main():
     logger.debug(f'{page_star_analytic}')
     logger.info("Аналитика звезды создана")
 
-    # 5. Создание отчета в виде pdf файла.
-    result = create_star_report(
-        page_content=page_star_content,
-        analytic_content=page_star_analytic
-    )
-    loger.debug(f'Содержимое страницы Звезда{result}')
-    if not result:
-        logger.error('Не удалось сформировать заполненную html страницу star')
+    # 5. Объединение данных для создания страниц с настройками
+    logger.info("Объединение данных для итогового отчета...")
+    union_star_data = combine_all_data(page_star_content, page_star_analytic)
+    logger.debug(f'Объединенные данные {union_star_data}')
+    logger.info("Объединение данных завершено")
 
+    # 6. Создание отчета в виде pdf файла.
+    result = create_star_report(union_star_data)
     logger.info("Завершение создания страницы star")
     # Завершение создания страницы star
 
