@@ -19,33 +19,63 @@ def get_star_analytic(star: Star) -> List:
             case 'Личность':
 
                 my_dict: Dict | Any = current_dict.get(star.personality)
-                person_dict: Dict = {
-                    'Личность': {
-                        'Положительные черты:': my_dict["personality_positive"],
-                        'Отрицательные черты:': my_dict["personality_negative"],
-                        'Рекомендации': my_dict["personality_recommendations"]
+                person_list: List = [
+                    {
+                        'title': 'Личность',
+                        'subtitle': 'Положительные черты:',
+                        'info': my_dict["personality_positive"]
+                    },
+                    {
+                        'title': 'Личность',
+                        'subtitle': 'Отрицательные черты:',
+                        'info': my_dict["personality_negative"]
+                    },
+                    {
+                        'title': 'Личность',
+                        'subtitle': 'Рекомендации:',
+                        'info': my_dict["personality_recommendations"]
                     }
-                }
+                ]
 
             case 'Духовность':
 
-                spirit_dict: Dict = {
-                    'Духовность': {
-                        'Программа рода': current_dict.get(star.spirituality)
+                spirit_list: List = [
+                    {
+                        'title': 'Духовность',
+                        'subtitle':   'Программа рода:',
+                        'info': current_dict.get(star.spirituality)
                     }
-                }
+                ]
 
             case 'Деньги':
 
                 mon_dict: Dict | Any = current_dict.get(star.money)
-                money_dict: Dict = {
-                    'Деньги': {
-                        'Кем Вы были в прошлой жизни? / Ваше главное число в денежном треугольнике:': mon_dict["main_number"],
-                        'Профессии, которые Вам подходят:': mon_dict["professions"],
-                        'Ваша энергия:': mon_dict["energy"],
-                        'Ваши блоки и ограничения:': mon_dict["restrictions"],
-                        'Траты, увеличивающие доход:': mon_dict["costs"],
+                money_list: List = [
+                    {
+                        'title': 'Деньги',
+                        'subtitle': 'Кем Вы были в прошлой жизни?',
+                        'info': mon_dict["main_number"]
+                    },
+                    {
+                        'title': 'Деньги',
+                        'subtitle': 'Профессии, которые Вам подходят:',
+                        'info': mon_dict["professions"]
+                    },
+                    {
+                        'title': 'Деньги',
+                        'subtitle': 'Ваша энергия:',
+                        'info': mon_dict["energy"]
+                    },
+                    {
+                        'title': 'Деньги',
+                        'subtitle': 'Ваши блоки и ограничения:',
+                        'info': mon_dict["restrictions"]
+                    },
+                    {
+                        'title': 'Деньги',
+                        'subtitle': 'Траты, увеличивающие доход:',
+                        'info': mon_dict["costs"]
                     }
-                }
+                ]
 
-    return [person_dict, spirit_dict, money_dict]
+    return [*person_list, *spirit_list, *money_list]

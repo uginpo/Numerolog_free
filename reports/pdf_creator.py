@@ -27,7 +27,8 @@ def create_star_report(union_data: List) -> bool:
 
     star_image_content = generate_pdf(
         output_path=output_path,
-        page_data=image_page_data
+        page_data=image_page_data,
+        text_data=text_data
     )
 
     return True
@@ -35,25 +36,17 @@ def create_star_report(union_data: List) -> bool:
 
 def generate_pdf(
     output_path: str,
-    title: str = '',
-    author_info: Dict[str, str] = {},
     page_data: ImagePageData = ImagePageData('', []),
-    text_page_data: TextPageData | None = None,
-    include_title_page: bool = False,
-    start_page_for_header_footer: int = 0,
+    text_data: TextPageData | None = None,
 ):
-    pdf = CustomPDF(start_page_for_header_footer=start_page_for_header_footer)
-
-    # Создание титульной страницы
-    if include_title_page:
-        pdf.create_title_page(title, author_info)
+    pdf = CustomPDF()
 
     # Создание страницы с изображением
     pdf.create_image_page(page_data)
 
     # Создание страниц с текстом
-    if text_page_data:
-        pdf.create_text_pages(text_page_data)
+    if text_data:
+        pdf.create_text_pages(text_data)
 
     # Сохранение PDF-файла
     pdf.output(str(output_path))

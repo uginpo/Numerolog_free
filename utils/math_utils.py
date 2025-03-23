@@ -2,10 +2,11 @@ def digital_root(num: int) -> int:
     """
     Рассчитывает однозначное число из суммы цифр числа num.
     """
-    string = str(num)
-    while len(string) > 1:
-        string = str(sum(int(item) for item in string))
-    return int(string)
+    number = num
+    while number > 9:
+        number = sum_digits(number)
+
+    return number
 
 
 def sum_digits(n: int) -> int:

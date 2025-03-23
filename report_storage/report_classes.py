@@ -1,5 +1,5 @@
 from fpdf import FPDF
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import List, Dict, Tuple, Union, Literal, Any
 from pathlib import Path
 
@@ -27,16 +27,27 @@ class ImagePageData:
 @dataclass
 class Section:
     """Описывает раздел текста"""
-    title: str  # Название раздела
-    title_font: Dict[str, Union[Any, int]]  # Шрифт названия раздела
-    # Подразделы
-    subsections: List[Dict[str, Union[Any, Dict[str, Union[Any, int]]]]]
+    title: str = ''  # Название раздела
+    subtitle: str = ''  # Название подраздела
+    info: List[str] = field(
+        default_factory=list  # Создаем новый пустой список для каждого экземпляра
+    )
+    # Шрифт названия раздела
+    title_font: Dict[str, Union[Any, int]] | None = None
+    subtitle_font: Dict[str, Union[Any, int]] | None = None
+    info_font: Dict[str, Union[Any, int]] | None = None
 
 
 @dataclass
 class TextPageData:
     """Описывает данные для страницы с текстом"""
-    sections: List[Section]  # Список разделов
+    background_color: Tuple[int, int, int] = (
+        255, 255, 255)  # Цвет фона по умолчанию (белый)
+    # Цвет текста по умолчанию (черный)
+    text_color: Tuple[int, int, int] = (0, 0, 0)
+    sections: List[Section] = field(
+        default_factory=list  # Создаем новый пустой список для каждого экземпляра
+    )
 
 
 """ Данные для страницы с изображением
@@ -58,13 +69,13 @@ class TextPageData:
         subsections=[
             {
                 "title": "Подраздел 1.1",
-                "title_font": {"name": "DejaVu", "style": "U", "size": 16},
+                "subtitle_font": {"name": "DejaVu", "style": "U", "size": 16},
                 "info": "Информация о подразделе 1.1",
                 "info_font": {"name": "DejaVu", "style": "I", "size": 12},
             },
             {
                 "title": "Подраздел 1.2",
-                "title_font": {"name": "DejaVu", "style": "B", "size": 14},
+                "subtitle_font": {"name": "DejaVu", "style": "B", "size": 14},
                 "info": "Информация о подразделе 1.2",
                 "info_font": {"name": "DejaVu", "style": "", "size": 10},
             },
@@ -76,17 +87,17 @@ class TextPageData:
         subsections=[
             {
                 "title": "Подраздел 2.1",
-                "title_font": {"name": "DejaVu", "style": "BI", "size": 14},
+                "subtitle_font": {"name": "DejaVu", "style": "BI", "size": 14},
                 "info": "Информация о подразделе 2.1",
                 "info_font": {"name": "DejaVu", "style": "", "size": 12},
             },
             {
                 "title": "Подраздел 2.2",
-                "title_font": {"name": "DejaVu", "style": "U", "size": 12},
+                "subtitle_font": {"name": "DejaVu", "style": "U", "size": 12},
                 "info": "Информация о подразделе 2.2",
                 "info_font": {"name": "DejaVu", "style": "I", "size": 10},
             },
         ],
     )
-    text_page_data = TextPageData(sections=[section1, section2])
+    text_page_data = TextPageData(background_color, text_color, sections=[section1, section2])
     """

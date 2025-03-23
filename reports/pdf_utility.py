@@ -8,11 +8,9 @@ from report_storage.report_classes import ImagePageData, TextPageData
 
 # Класс PDF
 class CustomPDF(FPDF):
-    def __init__(self, orientation="P", unit="mm", format="A4", start_page_for_header_footer=0):
+    def __init__(self, orientation="P", unit="mm", format="A4"):
         # Вызываем конструктор родительского класса с указанными параметрами
         super().__init__(orientation=orientation, unit=unit, format=format)
-
-        self.start_page_for_header_footer = start_page_for_header_footer
 
         # добавление пользовательских шрифтов
         self.add_font('roboto_bold', '',
@@ -23,34 +21,6 @@ class CustomPDF(FPDF):
                       'report_storage/fonts/Roboto Mono for Powerline.ttf', uni=True)
         self.add_font('roboto_light', '',
                       'report_storage/fonts/Roboto Mono Light for Powerline.ttf', uni=True)
-
-    def header(self):
-        if self.start_page_for_header_footer == 0:
-            return
-        if self.page_no() >= self.start_page_for_header_footer:
-            self.set_font("roboto_regular", "", 12)
-            self.cell(0, 10, "Название компании или проекта", 0, 1, "C")
-            self.ln(10)
-
-    def footer(self):
-        if self.start_page_for_header_footer == 0:
-            return
-        if self.page_no() >= self.start_page_for_header_footer:
-            self.set_y(-15)
-            self.set_font("roboto_regular", "", 10)
-            self.cell(
-                0, 10, f"Страница {self.page_no() - self.start_page_for_header_footer + 1}", 0, 0, "C")
-
-    def create_title_page(self, title: str, author_info: Dict[str, str]):
-        self.add_page()
-        self.set_font("roboto_regular", "", 24)
-        self.cell(0, 20, title, 0, 1, "C")
-        self.ln(20)
-
-        self.set_font("roboto_regular", "", 16)
-        for key, value in author_info.items():
-            self.cell(0, 10, f"{key}: {value}", 0, 1, "C")
-        self.ln(20)
 
     def create_image_page(self, page_data: ImagePageData):
         self.add_page()
@@ -91,41 +61,74 @@ class CustomPDF(FPDF):
                 )
 
     def create_text_pages(self, page_data: TextPageData):
+
+        # Установка общего цвета текста
+        self.set_text_color(*page_data.text_color)
+
+        old_title = ''
         for section in page_data.sections:
-            self.add_page()
+            # Проверяем место на странице перед добавлением заголовка раздела
+            if self.y + 20 > self.h - 20:  # Если нет места для нового контента
+                # Создаем новую страницу с цветом фона
+                self._add_colored_page(page_data.background_color)
 
-            # Название раздела
-            title_font = section.title_font
-            self.set_font(str(title_font["name"]),
-                          title_font.get("style", ""),  # type: ignore
-                          int(title_font["size"]))
-            self.cell(0, 10, section.title, 0, 1, "L")
-            self.ln(10)
+            # Устанавливаем шрифт заголовка раздела
+            self.set_font(
+                str(section.title_font.get("name")),  # type: ignore
+                str(section.title_font.get("style")),  # type: ignore
+                int(section.title_font.get("size"))  # type: ignore
+            )
 
-            for subsection in section.subsections:
-                # Название подраздела
-                subtitle_font = subsection.get(
-                    "title_font", {"name": "roboto_regular", "style": "B", "size": 14})
-                self.set_font(subtitle_font["name"], str(
-                    subtitle_font.get("style", "")), int(subtitle_font["size"]))
-                self.cell(0, 10, f"- {subsection['title']}", 0, 1, "L")
-                self.ln(5)
+            if old_title != section.title:
+                # Выводим название раздела только если оно не повторяется
+                old_title = section.title
+                self.cell(0, 10, section.title, 0, 1, "C")
+                self.ln(5)  # Отступ после названия раздела
+                if self.y + 20 > self.h - 20:  # Если нет места для нового контента
+                    #    Создаем новую страницу с цветом фона
+                    self._add_colored_page(page_data.background_color)
 
-                # Информация
-                info_font = subsection.get(
-                    "info_font", {"name": "roboto_regular", "style": "", "size": 12})
-                self.set_font(info_font["name"], str(
-                    info_font.get("style", "")), int(info_font["size"]))
-                self.multi_cell(0, 10, subsection["info"], align="L")
-                self.ln(10)
+            # Устанавливаем шрифт подзаголовка
+            if section.subtitle and section.subtitle_font:
+                self.set_font(
+                    str(section.subtitle_font.get("name")),  # type: ignore
+                    str(section.subtitle_font.get("style")),  # type: ignore
+                    int(section.subtitle_font.get("size"))  # type: ignore
+                )
+                # Выводим подзаголовок
+                self.cell(0, 10, section.subtitle, 0, 1, "C")
+                self.ln(2)  # Отступ после подзаголовка
+                if self.y + 20 > self.h - 20:  # Если нет места для нового контента
+                    # Создаем новую страницу с цветом фона
+                    self._add_colored_page(page_data.background_color)
 
+            # Устанавливаем шрифт основного текста
+            self.set_font(
+                str(section.info_font.get("name")),  # type: ignore
+                str(section.info_font.get("style")),  # type: ignore
+                int(section.info_font.get("size"))  # type: ignore
+            )
 
-"""    # Данные для создания PDF
-    output_path = "example.pdf"
-    title = "Название документа"
-    author_info = {
-        "Автор": "Иван Иванов",
-        "Email": "ivan@example.com",
-        "Телефон": "+7 (123) 456-78-90",
-    }
-    """
+            # Уменьшаем интервал между строками
+            line_height = self.font_size * 1.25  # Высота строки равна 1.2 от размера шрифта
+
+            # Обработка информации внутри раздела
+            for info_item in section.info:
+                # Проверяем, достаточно ли места на странице
+                # Выводим информацию через multi_cell
+                self.multi_cell(0, line_height, info_item, align="L")
+                # Отступ между элементами информации
+                self.ln(self.font_size * 0.3)
+
+                if self.y + 20 > self.h - 20:  # Если нет места для нового контента
+                    # Создаем новую страницу с цветом фона
+                    self._add_colored_page(page_data.background_color)
+            self.ln(5)
+
+    def _add_colored_page(self, background_color: Tuple[int, int, int]):
+        """Создает новую страницу с заданным цветом фона"""
+        self.add_page()
+        self.set_fill_color(*background_color)
+        # Прямоугольник со страницей, заполненный цветом
+        self.rect(0, 0, self.w, self.h, 'F')
+        self.set_y(10)  # Начинаем с верхней части страницы
