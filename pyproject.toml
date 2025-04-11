@@ -1,0 +1,39 @@
+[project]
+name = "Numerolog_free"
+version = "0.1.0"
+description = "Рассчет арканов клиента. Нумерология. Free"
+authors = [{ name = "Евгений", email = "uginpo@gmail.com" }]
+readme = "README.md"
+requires-python = ">=3.13"
+license = {text = "MIT"}
+
+dependencies = [
+    "fpdf==1.7.2",
+    "fpdf2==2.8.2",
+    "loguru==0.7.3",
+    "matplotlib-inline==0.1.7",
+    "pathlib==1.0.1",
+    "types-fpdf2==2.8.2.20241223",
+    "python-dotenv"
+]
+
+[project.scripts]
+star = "src.star:main"  # Команда `star` вызовет main() из src/star.py
+money = "src.money:main"  # Команда `money` вызовет main() из src/money.py
+package = "src.package:main"  # Команда `package` вызовет main() из src/package.py
+
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.uv]
+paths = [
+         "src",
+         "config",
+         "data_requests",
+         "input_module",
+         "report_storage",
+         "reports",
+         "text_storage",
+         "utils" 
+         ]  # Пути для импорта

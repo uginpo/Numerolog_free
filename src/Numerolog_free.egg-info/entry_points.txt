@@ -1,0 +1,4 @@
+[console_scripts]
+money = src.money:main
+package = src.package:main
+star = src.star:main

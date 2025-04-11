@@ -54,6 +54,9 @@ def main():
                     ('Артем краснов', '28.08.1998'),
                     ('Алина', '15.10.1982')
                     ]
+    clients_list = [('Виктория', '26.10.1989'),
+                    ('Джулия', '19.10.1981'),
+                    ]
 
     for client in clients_list:
         client_info = get_client_info(client)

@@ -1,0 +1,20 @@
+Metadata-Version: 2.4
+Name: Numerolog_free
+Version: 0.1.0
+Summary: Рассчет арканов клиента. Нумерология. Free
+Author-email: Евгений <uginpo@gmail.com>
+License: MIT
+Requires-Python: >=3.13
+Description-Content-Type: text/markdown
+Requires-Dist: fpdf==1.7.2
+Requires-Dist: fpdf2==2.8.2
+Requires-Dist: loguru==0.7.3
+Requires-Dist: matplotlib-inline==0.1.7
+Requires-Dist: pathlib==1.0.1
+Requires-Dist: types-fpdf2==2.8.2.20241223
+Requires-Dist: python-dotenv
+
+# Создание нумерологического профайлинга
+
+## Описание
+Это бесплатный вариант создания сокращенного нумерологического профайлинга для рассчета базовых числовых характеристик одного клиента.

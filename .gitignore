@@ -13,3 +13,5 @@ generator_stucture.py
 project_structure.txt
 output/
 Numerolog_free.code-workspace
+technical_requirements.md
+utils/__pycache__

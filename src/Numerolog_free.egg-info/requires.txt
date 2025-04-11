@@ -1,0 +1,7 @@
+fpdf==1.7.2
+fpdf2==2.8.2
+loguru==0.7.3
+matplotlib-inline==0.1.7
+pathlib==1.0.1
+types-fpdf2==2.8.2.20241223
+python-dotenv

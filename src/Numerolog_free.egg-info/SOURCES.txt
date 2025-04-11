@@ -1,0 +1,13 @@
+README.md
+pyproject.toml
+src/__init__.py
+src/money.py
+src/package.py
+src/star.py
+src/Numerolog_free.egg-info/PKG-INFO
+src/Numerolog_free.egg-info/SOURCES.txt
+src/Numerolog_free.egg-info/dependency_links.txt
+src/Numerolog_free.egg-info/entry_points.txt
+src/Numerolog_free.egg-info/requires.txt
+src/Numerolog_free.egg-info/top_level.txt
+tests/test_gui_main.py
