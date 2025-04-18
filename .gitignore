@@ -15,3 +15,6 @@ output/
 Numerolog_free.code-workspace
 technical_requirements.md
 utils/__pycache__
+src/star.py
+src/money.py
+src/package.py

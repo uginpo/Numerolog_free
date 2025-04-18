@@ -31,31 +31,36 @@ class StarAnalyticInfo:
             raise ValueError('В словаре(словарях) недостаточно данных')
 
         # Блок контента страницы аналитики
-        self._personality_analytic = [
-            Section(
-                title='Личность',
-                subtitle='Положительные черты',
-                info=self._personality_dict.get('personality_positive')
-            ),
-            Section(
-                title='Личность',
-                subtitle='Отрицательные черты',
-                info=self._personality_dict.get('personality_negative')
-            ),
-            Section(
-                title='Личность',
-                subtitle='Рекомендации',
-                info=self._personality_dict.get('personality_recommendations')
-            )
-        ]
+        if self._personality_dict:
+            self._personality_analytic = [
+                Section(
+                    title='Личность',
+                    subtitle='Положительные черты',
+                    info=self._personality_dict.get(
+                        'personality_positive')
+                ),
+                Section(
+                    title='Личность',
+                    subtitle='Отрицательные черты',
+                    info=self._personality_dict.get(
+                        'personality_negative')
+                ),
+                Section(
+                    title='Личность',
+                    subtitle='Рекомендации',
+                    info=self._personality_dict.get(
+                        'personality_recommendations')
+                )
+            ]
 
-        self._spirituality_analytic = [
-            Section(
-                title='Духовность',
-                subtitle='Программа рода:',
-                info=self._spirituality_dict  # type: ignore
-            )
-        ]
+        if self._spirituality_dict:
+            self._spirituality_analytic = [
+                Section(
+                    title='Духовность',
+                    subtitle='Программа рода:',
+                    info=self._spirituality_dict
+                )
+            ]
 
         self._money_analytic = [
             Section(
@@ -198,7 +203,8 @@ class MoneyAnalyticInfo:
 
         self._talents_list = []
         for number in (set_talents - set_vertex):
-            self._talents_list.extend(self._talents_dict.get(number))
+            self._talents_list.extend(
+                self._talents_dict.get(number))  # type: ignore
 
         return [
             Section(

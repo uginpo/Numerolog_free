@@ -8,7 +8,7 @@ from report_storage.report_classes import ImagePageData, TextPageData
 
 # Класс PDF
 class CustomPDF(FPDF):
-    def __init__(self, orientation="P", unit="mm", format="A4"):
+    def __init__(self, orientation: Literal['P'] = "P", unit: Literal['mm'] = "mm", format: Literal['A4'] = "A4"):
         # Вызываем конструктор родительского класса с указанными параметрами
         super().__init__(orientation=orientation, unit=unit, format=format)
         # Флаг, указывающий, что новую страницу нужно залить цветом

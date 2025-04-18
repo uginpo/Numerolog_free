@@ -1,9 +1,8 @@
 from dataclasses import dataclass
 from datetime import date
-from enum import Enum
 from typing import Dict
 
-from utils.math_utils import digital_root, sum_digits
+from utils.math_utils import digital_root
 
 
 # Данные клиента при вводе (имя и дата рождения)
@@ -14,7 +13,7 @@ class Client:
 
     def __post_init__(self):
         if not isinstance(self.birthday, date):
-            raise ValueError("Поле birthday должно быть типа datetime.date")
+            raise ValueError("Неправильно введена дата рождения")
         if self.birthday > date.today():
             raise ValueError("Дата рождения не может быть больше текущей даты")
 
